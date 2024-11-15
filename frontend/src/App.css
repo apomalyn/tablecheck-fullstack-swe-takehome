@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL,ROND@0..1,100&display=block");
+
+html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    text-align: center;
+    height: 100vh;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
