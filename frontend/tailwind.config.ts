@@ -17,7 +17,7 @@ export default {
                     colors: {
                         foreground: "#0f092a",
                         background: "#e9e5fa",
-                        primary: "#2c1971",
+                        primary: { DEFAULT: "#2c1971", foreground: "#e9e5fa" },
                         secondary: "#e170b5",
                         focus: "#c92c4b",
                     },
@@ -26,7 +26,7 @@ export default {
                     colors: {
                         foreground: "#dbd5f6",
                         background: "#09051a",
-                        primary: "#a18ee6",
+                        primary: { DEFAULT: "#a18ee6", foreground: "#09051a" },
                         secondary: "#8f1e64",
                         focus: "#d33656",
                     },
