@@ -1,0 +1,11 @@
+meta {
+  name: Delete the party from the waitlist- This action cannot be reverted-
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/waitlist/:uuid
+  body: none
+  auth: none
+}

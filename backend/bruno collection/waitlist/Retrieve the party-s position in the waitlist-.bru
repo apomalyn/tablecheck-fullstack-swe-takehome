@@ -1,0 +1,15 @@
+meta {
+  name: Retrieve the party-s position in the waitlist-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/waitlist/:uuid
+  body: none
+  auth: none
+}
+
+params:path {
+  uuid: 
+}

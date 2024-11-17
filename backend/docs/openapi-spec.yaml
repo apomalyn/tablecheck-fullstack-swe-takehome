@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: Virtual Waitlist
+  version: 1.0.0
+tags:
+  - name: waitlist
+    description: Operation related to the virtual waitlist
+  - name: restaurants
+paths:
+  /restaurants/configuration:
+    get:
+      summary: Retrieve the restaurant configuration.
+      operationId: getRestaurantConfiguration
+      tags:
+        - restaurants
+      responses:
+        200:
+          description: Successful.
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestaurantConfiguration"
+  
+  /waitlist/join:
+    post:
+      summary: Join the waitlist for the specified restaurant.
+      description: Register a party in the waitlist.
+      operationId: joinWaitlist
+      tags:
+        - waitlist
+      requestBody:
+        $ref: "#/components/requestBodies/JoinWaitlistRequest"
+      responses:
+        201:
+          $ref: "#/components/responses/JoinWaitlistSuccessfulResponse"
+        400:
+          $ref: "#/components/responses/InvalidRequestResponse"
+  
+  /waitlist/{uuid}:
+    get:
+      summary: Retrieve the party's position in the waitlist.
+      description: This endpoint will open a event source (see Server Sent Events for more information) with the API on which will an update on the party's position will be sent every 3 seconds.
+      operationId: getWaitlistPosition
+      tags:
+        - waitlist
+      parameters:
+        - $ref: "#/components/parameters/PartyUuid"
+      responses:
+        200:
+          $ref: "#/components/responses/GetWaitlistPositionResponse"
+        404:
+          description: Party wasn't found. It may have already expired or checked in.
+    delete:
+      summary: Delete the party from the waitlist. This action cannot be reverted.
+      operationId: quitWaitlist
+      tags:
+        - waitlist
+      parameters:
+        - $ref: "#/components/parameters/PartyUuid"
+      responses:
+        204:
+          description: The party was removed from the waitlist.
+  /waitlist/{uuid}/check-in:
+    post:
+      summary: Checking in the party.
+      description: The party 
+      operationId: checkInWaitlist
+      tags:
+        - waitlist
+      parameters:
+        - $ref: "#/components/parameters/PartyUuid"
+      responses:
+        200:
+          $ref: "#/components/responses/CheckInResponse"
+        400:
+          $ref: "#/components/responses/InvalidRequestResponse"
+        404:
+          description: Party wasn't found. It may have already expired or checked in.
+
+components:
+  schemas:
+    RestaurantConfiguration:
+      type: object
+      description: The configuration of the restaurant, 
+      properties:
+        name:
+          type: string
+          description: Name of the restaurant.
+          example: "My little Café"
+        maxCapacity:
+          type: integer
+          description: Indicate the capacity of the restaurant, in other words, the number of chairs.
+          minimum: 1
+          example: 10
+        maxPartySize:
+          type: integer
+          description: Maximum party size allowed in the restaurant. By default, equals `maxCapacity`
+          minimum: 1
+          example: 10
+      required:
+        - name
+        - maxCapacity
+        - maxPartySize
+    BaseParty:
+      type: object
+      description: Base representation of a party.
+      properties:
+        name:
+          type: string
+          description: Name of the party, typically the name of the person that placed the reservation or joined the waitlist.
+          example: John Doe
+        partySize:
+          type: integer
+          description: Size of the party, how many seats will be required. Cannot exceed the `RestaurantConfiguration.maxPartySize`
+          minimum: 1
+          example: 5
+      required:
+        - name
+        - partySize
+    Party:
+      allOf:
+        - $ref: "#/components/schemas/BaseParty"
+        - type: object
+          properties:
+            uuid:
+              type: string
+              format: uuid
+            createdOn:
+              type: string
+              format: datetime
+              description: UTC date of when the party was register in the waitlist.
+            expiresOn:
+              type: string
+              format: datetime
+              description: UTC date of when the party will be automatically removed from the waitlist.
+          required:
+            - uuid
+            - createdOn
+            - expiresOn
+    PartyCheckIn:
+      allOf:
+        - $ref: "#/components/schemas/Party"
+        - type: object
+          properties:
+            table:
+              type: string
+              description: |
+                Provided when the restaurant offers an autonomous check-in experience. Contains the
+                table assigned to the party. The value can be a number, a string or an url depending on the restaurant table system.
+              example: 1
+
+    ApiResponse:
+      type: object
+      description: Default API response
+      properties:
+        message:
+          type: string
+          example: "Operation successful"
+          description: Informative message about the operation
+      required:
+      - message
+  parameters:
+    PartyUuid:
+      in: path
+      name: uuid
+      required: true
+      schema:
+        type: string
+        format: uuid
+        description: Unique identifier of the party
+  requestBodies:
+    JoinWaitlistRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BaseParty"
+
+  responses:
+    JoinWaitlistSuccessfulResponse:
+      description: The party was registered in the waitlist.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              party:
+                $ref: "#/components/schemas/Party"
+              eventSource:
+                type: string
+                format: url
+                description: URL of the event source to be notified when the party's table will be ready.
+            required:
+              - party
+              - eventSource
+    GetWaitlistPositionResponse:
+      description: Retrieve and subscribe to the party position in the waitlist
+      content:
+        text/event-stream:
+          schema:
+            $ref: "#/components/schemas/Party"
+    CheckInResponse:
+      description: The party was successfully checked-in. Direct the party to the restaurant entrance or directly to the table depending on the restaurant configuration.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PartyCheckIn"
+    InvalidRequestResponse:
+      description: Operation failed, request body or parameter are missing or invalid. See message for more information
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+  
