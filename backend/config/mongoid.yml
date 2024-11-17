@@ -1,0 +1,17 @@
+development:
+  clients:
+    # Local database, should not be used for production.
+    default:
+      database: virtual_waitlist_db
+      hosts:
+        - localhost:27017
+      options:
+        server_selection_timeout: 1
+
+        # The name of the user and password for authentication.
+        user: 'api-service'
+        password: 'api-service'
+
+        # The user's database roles.
+        roles:
+          - 'readWrite'

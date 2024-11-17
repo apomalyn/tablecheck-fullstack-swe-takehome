@@ -19,6 +19,7 @@ To initialize the database, follow those steps:
 2. (Optional) Update the API service username and password:
    1. Open `mongo-db/mongodb/initdb.d/mongo-init.js`
    2. Modify the lines 4 and 5 with the new username and password.
+   3. Modify `config/mongoid.yml` lines 12 and 13 accordingly
 3. Open a terminal in the `mongo-db` folder then execute: `docker compose up`
 4. (Optional) Verify the installation.
    1. In a browser, open `http://localhost:8081`
