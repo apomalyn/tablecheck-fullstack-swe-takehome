@@ -12,7 +12,10 @@ import { useRestaurantConfig } from "../hooks/use-restaurant-config.tsx";
 import AppBar from "../components/app-bar.tsx";
 import ApiService from "../services/api-service.ts";
 import { useNavigate } from "react-router-dom";
-import { SESSION_KEY_PARTY_UUID } from "../constants/session_keys.ts";
+import {
+    PARTY_EXPIRES_ON_KEY,
+    PARTY_UUID_KEY,
+} from "../constants/storage_keys.ts";
 
 interface IState {
     name: {
@@ -73,7 +76,11 @@ export default function JoinWaitlistView() {
         void ApiService.instance
             .joinWaitlist(state.name.value, state.partySize.value)
             .then((result) => {
-                sessionStorage.setItem(SESSION_KEY_PARTY_UUID, result.uuid);
+                localStorage.setItem(PARTY_UUID_KEY, result.uuid);
+                localStorage.setItem(
+                    PARTY_EXPIRES_ON_KEY,
+                    result.expiresOn.toUTCString()
+                );
                 navigate("/waiting");
             })
             .catch((err) => {

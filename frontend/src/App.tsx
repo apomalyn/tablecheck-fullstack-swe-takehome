@@ -1,16 +1,26 @@
 import "./App.css";
 import { useTheme } from "./hooks/use-theme.tsx";
 import { Outlet, redirect } from "react-router-dom";
-import { SESSION_KEY_PARTY_UUID } from "./constants/session_keys.ts";
+import {
+    PARTY_EXPIRES_ON_KEY,
+    PARTY_UUID_KEY,
+} from "./constants/storage_keys.ts";
 
 export function loader({ request }: { request: Request }) {
     const url = new URL(request.url);
+    const uuid = localStorage.getItem(PARTY_UUID_KEY);
+    const expiresOn = Date.parse(
+        localStorage.getItem(PARTY_EXPIRES_ON_KEY) ?? ""
+    );
+    const now = Date.now();
     if (
-        sessionStorage.getItem(SESSION_KEY_PARTY_UUID) !== null &&
-        !url.pathname.startsWith("/waiting")
+        uuid !== null &&
+        !url.pathname.startsWith("/waiting") &&
+        expiresOn > now
     ) {
         return redirect("/waiting");
     } else if (url.pathname === "/") {
+        localStorage.clear();
         return redirect("/joinWaitlist");
     }
     return null;

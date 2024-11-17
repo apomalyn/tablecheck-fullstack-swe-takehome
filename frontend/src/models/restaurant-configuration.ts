@@ -1,4 +1,5 @@
 export default interface IRestaurantConfiguration {
     name: string;
-    maxSeating: number;
+    capacity: number;
+    maxPartySize: number;
 }
