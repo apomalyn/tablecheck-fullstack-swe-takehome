@@ -1,10 +1,4 @@
-import {
-    createContext,
-    ReactNode,
-    useCallback,
-    useContext,
-    useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface ThemeContextType {
     isDarkMode: boolean;
@@ -20,9 +14,7 @@ export const ThemeContext = createContext<ThemeContextType | null>(null);
 export default function ThemeContextProvider({ children }: IProps) {
     const [isDarkMode, setIsDarkMode] = useState(true);
 
-    const toggleDarkMode = useCallback(() => {
-        setIsDarkMode((prev) => !prev);
-    }, [isDarkMode]);
+    const toggleDarkMode = () => setIsDarkMode((prev) => !prev);
 
     return (
         <ThemeContext.Provider

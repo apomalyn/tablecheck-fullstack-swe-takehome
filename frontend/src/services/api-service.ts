@@ -3,7 +3,8 @@ import IRestaurantConfiguration from "../models/restaurant-configuration.ts";
 export default class ApiService {
     static _instance: ApiService;
 
-    private constructor() { }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    private constructor() {}
 
     public static get instance(): ApiService {
         if (!ApiService._instance) {
