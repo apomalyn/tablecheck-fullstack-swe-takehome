@@ -1,8 +1,14 @@
 import "./App.css";
-import AppBar from "./components/app-bar.tsx";
 import { useTheme } from "./hooks/use-theme.tsx";
 import JoinWaitlist from "./views/join-waitlist.tsx";
-import RestaurantConfigContextProvider from "./hooks/use-restaurant-config.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <JoinWaitlist />,
+    },
+]);
 
 function App() {
     const { isDarkMode } = useTheme();
@@ -11,10 +17,7 @@ function App() {
         <main
             className={`${isDarkMode ? "dark" : "light"} text-foreground bg-background`}
         >
-            <RestaurantConfigContextProvider>
-                <AppBar />
-                <JoinWaitlist />
-            </RestaurantConfigContextProvider>
+            <RouterProvider router={router} />
         </main>
     );
 }
