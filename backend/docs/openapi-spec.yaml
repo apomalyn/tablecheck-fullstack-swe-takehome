@@ -87,20 +87,20 @@ components:
           type: string
           description: Name of the restaurant.
           example: "My little Café"
-        maxCapacity:
+        capacity:
           type: integer
           description: Indicate the capacity of the restaurant, in other words, the number of chairs.
           minimum: 1
           example: 10
-        maxPartySize:
+        max_party_size:
           type: integer
-          description: Maximum party size allowed in the restaurant. By default, equals `maxCapacity`
+          description: Maximum party size allowed in the restaurant. By default, equals `capacity`
           minimum: 1
           example: 10
       required:
         - name
-        - maxCapacity
-        - maxPartySize
+        - capacity
+        - max_party_size
     BaseParty:
       type: object
       description: Base representation of a party.
@@ -109,14 +109,14 @@ components:
           type: string
           description: Name of the party, typically the name of the person that placed the reservation or joined the waitlist.
           example: John Doe
-        partySize:
+        party_size:
           type: integer
-          description: Size of the party, how many seats will be required. Cannot exceed the `RestaurantConfiguration.maxPartySize`
+          description: Size of the party, how many seats will be required. Cannot exceed the `RestaurantConfiguration.max_party_size`
           minimum: 1
           example: 5
       required:
         - name
-        - partySize
+        - party_size
     Party:
       allOf:
         - $ref: "#/components/schemas/BaseParty"
@@ -125,18 +125,18 @@ components:
             uuid:
               type: string
               format: uuid
-            createdOn:
+            created_on:
               type: string
               format: datetime
               description: UTC date of when the party was register in the waitlist.
-            expiresOn:
+            expires_on:
               type: string
               format: datetime
               description: UTC date of when the party will be automatically removed from the waitlist.
           required:
             - uuid
-            - createdOn
-            - expiresOn
+            - created_on
+            - expires_on
     PartyCheckIn:
       allOf:
         - $ref: "#/components/schemas/Party"
