@@ -11,13 +11,13 @@ db.createUser({
     ]
 });
 
-db.createCollection("waitlist");
+db.createCollection("restaurants");
 
 db.waitlist.insertOne({
     configuration: {
         name: "My Little Café",
         capacity: 10,
-        max_party_size: 10
-    },
-    waiting: []
+        current_capacity: 10,
+        max_party_size: 10,
+    }
 })
