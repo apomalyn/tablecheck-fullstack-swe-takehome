@@ -73,7 +73,7 @@ paths:
         - $ref: "#/components/parameters/PartyUuid"
       responses:
         200:
-          $ref: "#/components/responses/CheckInResponse"
+          description: Check-in successful
         400:
           $ref: "#/components/responses/InvalidRequestResponse"
         404:
@@ -111,14 +111,14 @@ components:
           type: string
           description: Name of the party, typically the name of the person that placed the reservation or joined the waitlist.
           example: John Doe
-        party_size:
+        size:
           type: integer
           description: Size of the party, how many seats will be required. Cannot exceed the `RestaurantConfiguration.max_party_size`
           minimum: 1
           example: 5
       required:
         - name
-        - party_size
+        - size
     Party:
       allOf:
         - $ref: "#/components/schemas/BaseParty"
@@ -139,18 +139,13 @@ components:
             - uuid
             - created_on
             - expires_on
-    PartyCheckIn:
-      allOf:
-        - $ref: "#/components/schemas/Party"
-        - type: object
-          properties:
-            table:
-              type: string
-              description: |
-                Provided when the restaurant offers an autonomous check-in experience. Contains the
-                table assigned to the party. The value can be a number, a string or an url depending on the restaurant table system.
-              example: 1
-
+    PartyPosition:
+      type: object
+      properties:
+        position:
+          type: number
+          minimum: 1
+          description: Position of the party in the waitlist
     ApiResponse:
       type: object
       description: Default API response
@@ -208,13 +203,7 @@ components:
       content:
         text/event-stream:
           schema:
-            $ref: "#/components/schemas/Party"
-    CheckInResponse:
-      description: The party was successfully checked-in. Direct the party to the restaurant entrance or directly to the table depending on the restaurant configuration.
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/PartyCheckIn"
+            $ref: "#/components/schemas/PartyPosition"
     InvalidRequestResponse:
       description: Operation failed, request body or parameter are missing or invalid. See message for more information
       content:

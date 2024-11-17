@@ -15,4 +15,10 @@ Rails.application.routes.draw do
   # Restaurants
   get "restaurants/:uuid" => "restaurants#show"
   post "restaurants" => "restaurants#create"
+
+  # Waitlist
+  post "waitlist/:restaurant_uuid/join" => "waitlist#join"
+  get "waitlist/:uuid" => "waitlist#show"
+  post "waitlist/:uuid/check-in" => "waitlist#check_in"
+  delete "waitlist/:uuid" => "waitlist#destroy"
 end

@@ -6,6 +6,7 @@ class Restaurant
   field :capacity, type: Integer
   field :current_capacity, type: Integer, default: -> { self.capacity }
   field :max_party_size, type: Integer, default: -> { self.capacity }
+  embeds_many :waitlist, class_name: "Party"
 
   def as_json(options = {})
     {
