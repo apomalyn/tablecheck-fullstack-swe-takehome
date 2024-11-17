@@ -5,6 +5,15 @@ class Party
   field :name, type: String
   field :size, type: Integer
   alias_attribute :party_size, :size
-  field :created_on, type: DateTime, default: -> { DateTime.now }
+  field :created_at, type: DateTime, default: -> { DateTime.now }
   field :expires_on, type: DateTime, default: -> { DateTime.tomorrow }
+
+  def as_json(options = {})
+    {
+      :uuid => _id,
+      :name => name,
+      :size => size,
+      :expires_on => expires_on
+    }
+  end
 end

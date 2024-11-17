@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/restaurants/configuration
+  url: {{baseUrl}}/restaurants/:uuid
   body: none
   auth: none
+}
+
+params:path {
+  uuid: 
 }
