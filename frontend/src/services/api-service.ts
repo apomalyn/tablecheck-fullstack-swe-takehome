@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
 import IRestaurantConfiguration from "../models/restaurant-configuration.ts";
 import { IPositionInWaitlistResponse } from "../models/position-in-waitlist-response.ts";
 import axios, { AxiosInstance } from "axios";
@@ -33,12 +35,12 @@ export default class ApiService {
                 validateStatus: function (status) {
                     return status === 200;
                 },
-                transformResponse: (data) => {
+                transformResponse: (data: string) => {
                     const json = JSON.parse(data);
                     return {
-                        name: json.name,
-                        capacity: json.capacity,
-                        maxPartySize: json.max_party_size,
+                        name: json.name as string,
+                        capacity: json.capacity as number,
+                        maxPartySize: json.max_party_size as number,
                     };
                 },
             }
@@ -61,13 +63,13 @@ export default class ApiService {
                 validateStatus: function (status: number) {
                     return status === 201;
                 },
-                transformResponse: (data) => {
+                transformResponse: (data: string) => {
                     const json = JSON.parse(data);
                     return {
-                        uuid: json.uuid,
-                        name: json.name,
-                        size: json.size,
-                        expiresOn: json.expires_on,
+                        uuid: json.uuid as string,
+                        name: json.name as string,
+                        size: json.size as string,
+                        expiresOn: new Date(json.expires_on as string),
                     };
                 },
             }
@@ -85,7 +87,9 @@ export default class ApiService {
     async cancelPositionInWaitlist(partyUuid: string): Promise<void> {
         return this.axiosInstance.delete(`/waitlist/${partyUuid}`, {
             validateStatus: function (status: number) {
-                return status === 204;
+                // In this specific case, if the party doesn't exist on the API
+                // it's not important.
+                return status === 204 || status === 404; //
             },
         });
     }
