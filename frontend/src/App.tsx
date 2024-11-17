@@ -1,25 +1,29 @@
 import "./App.css";
 import { useTheme } from "./hooks/use-theme.tsx";
-import JoinWaitlistView from "./views/join-waitlist-view.tsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
+import { SESSION_KEY_PARTY_UUID } from "./constants/session_keys.ts";
 
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <JoinWaitlistView />,
-    },
-]);
+export function loader({ request }: { request: Request }) {
+    const url = new URL(request.url);
+    if (
+        sessionStorage.getItem(SESSION_KEY_PARTY_UUID) !== null &&
+        !url.pathname.startsWith("/waiting")
+    ) {
+        return redirect("/waiting");
+    } else if (url.pathname === "/") {
+        return redirect("/joinWaitlist");
+    }
+    return null;
+}
 
-function App() {
+export default function App() {
     const { isDarkMode } = useTheme();
 
     return (
         <main
             className={`${isDarkMode ? "dark" : "light"} text-foreground bg-background`}
         >
-            <RouterProvider router={router} />
+            <Outlet />
         </main>
     );
 }
-
-export default App;

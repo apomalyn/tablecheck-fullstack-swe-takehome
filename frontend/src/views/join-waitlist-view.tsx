@@ -10,6 +10,9 @@ import {
 import { useState, ChangeEvent } from "react";
 import { useRestaurantConfig } from "../hooks/use-restaurant-config.tsx";
 import AppBar from "../components/app-bar.tsx";
+import ApiService from "../services/api-service.ts";
+import { useNavigate } from "react-router-dom";
+import { SESSION_KEY_PARTY_UUID } from "../constants/session_keys.ts";
 
 interface IState {
     name: {
@@ -26,6 +29,7 @@ interface IState {
 export default function JoinWaitlistView() {
     const { t } = useTranslation();
     const { config } = useRestaurantConfig();
+    const navigate = useNavigate();
     const [state, setState] = useState<IState>({
         name: {
             value: "",
@@ -56,7 +60,7 @@ export default function JoinWaitlistView() {
                 value: partySize,
                 isInvalid: isNaN(partySize)
                     ? true
-                    : partySize < 1 || partySize > config!.maxSeating,
+                    : partySize < 1 || partySize > config!.maxPartySize,
             },
         }));
     }
@@ -66,6 +70,17 @@ export default function JoinWaitlistView() {
             ...current,
             isSubmitting: true,
         }));
+        void ApiService.instance
+            .joinWaitlist(state.name.value, state.partySize.value)
+            .then((result) => {
+                sessionStorage.setItem(SESSION_KEY_PARTY_UUID, result.uuid);
+                navigate("/waiting");
+            })
+            .catch((err) => {
+                // TODO handle error
+                console.log(err);
+                setState((current) => ({ ...current, isSubmitting: false }));
+            });
     }
 
     return (
@@ -108,7 +123,7 @@ export default function JoinWaitlistView() {
                                 errorMessage={t(
                                     "join_waitlist_party_size_error",
                                     {
-                                        max: config?.maxSeating,
+                                        max: config?.maxPartySize,
                                     }
                                 )}
                                 readOnly={state.isSubmitting}
