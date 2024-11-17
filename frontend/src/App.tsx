@@ -1,12 +1,12 @@
 import "./App.css";
 import { useTheme } from "./hooks/use-theme.tsx";
-import JoinWaitlist from "./views/join-waitlist.tsx";
+import JoinWaitlistView from "./views/join-waitlist-view.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <JoinWaitlist />,
+        element: <JoinWaitlistView />,
     },
 ]);
 

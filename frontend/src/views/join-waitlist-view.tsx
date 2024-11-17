@@ -23,7 +23,7 @@ interface IState {
     isSubmitting: boolean;
 }
 
-export default function JoinWaitlist() {
+export default function JoinWaitlistView() {
     const { t } = useTranslation();
     const { config } = useRestaurantConfig();
     const [state, setState] = useState<IState>({
