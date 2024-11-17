@@ -12,16 +12,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-  def add_route http_method, path, opts = {}
-    full_path = path.gsub(/{(.*?)}/, ':\1')
-    match full_path, to: "#{opts.fetch(:controller_name)}##{opts[:action_name]}", via: http_method
-  end
-
-  add_route 'GET', '/restaurants/configuration', controller_name: 'restaurants', action_name: 'get_restaurant_configuration'
-  add_route 'POST', '/waitlist/{uuid}/check-in', controller_name: 'waitlist', action_name: 'check_in_waitlist'
-  add_route 'GET', '/waitlist/{uuid}', controller_name: 'waitlist', action_name: 'show'
-  add_route 'POST', '/waitlist/join', controller_name: 'waitlist', action_name: 'join_waitlist'
-  add_route 'DELETE', '/waitlist/{uuid}', controller_name: 'waitlist', action_name: 'destroy'
+  # Restaurants
+  get "restaurants/:uuid" => "restaurants#show"
+  post "restaurants" => "restaurants#create"
 end

@@ -7,12 +7,14 @@ tags:
     description: Operation related to the virtual waitlist
   - name: restaurants
 paths:
-  /restaurants/configuration:
+  /restaurants/{uuid}:
     get:
       summary: Retrieve the restaurant configuration.
       operationId: getRestaurantConfiguration
       tags:
         - restaurants
+      parameters:
+        - $ref: "#/components/parameters/RestaurantUuid"
       responses:
         200:
           description: Successful.
@@ -168,6 +170,14 @@ components:
         type: string
         format: uuid
         description: Unique identifier of the party
+    RestaurantUuid:
+      in: path
+      name: uuid
+      required: true
+      schema:
+        type: string
+        format: uuid
+        description: Unique identifier of the restaurant
   requestBodies:
     JoinWaitlistRequest:
       required: true
