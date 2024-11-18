@@ -1,9 +1,9 @@
-import { AppBar } from "../components";
+import { AppBar } from "@components/index";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { routeName as joinWaitingListRouteName } from "./join-waitlist-view.tsx";
+import { routeName as joinWaitingListRouteName } from "@views/join-waitlist-view.tsx";
 
 export const routeName = "/checked-in";
 

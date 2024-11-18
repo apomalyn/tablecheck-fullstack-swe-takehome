@@ -5,8 +5,8 @@ import {
     useEffect,
     useState,
 } from "react";
-import IRestaurantConfiguration from "../models/restaurant-configuration.ts";
-import ApiService from "../services/api-service.ts";
+import IRestaurantConfiguration from "@models/restaurant-configuration.ts";
+import ApiService from "@services/api-service.ts";
 
 interface RestaurantConfigContextType {
     config?: IRestaurantConfiguration;

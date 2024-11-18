@@ -3,7 +3,7 @@ import {
     IRestaurantConfiguration,
     IPositionInWaitlist,
     IParty,
-} from "../models";
+} from "@models/index";
 import axios, { AxiosInstance } from "axios";
 
 export default class ApiService {

@@ -10,12 +10,12 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AppBar, CancelModal } from "../components";
-import ApiService from "../services/api-service.ts";
-import { PARTY_UUID_KEY } from "../constants/storage-keys.ts";
-import { IPositionInWaitlist } from "../models";
-import { routeName as joinWaitingListRouteName } from "./join-waitlist-view.tsx";
-import { routeName as checkedInRouteName } from "./checked-in-view.tsx";
+import { AppBar, CancelModal } from "@components/index";
+import ApiService from "@services/api-service.ts";
+import { PARTY_UUID_KEY } from "@constants/storage-keys.ts";
+import { IPositionInWaitlist } from "@models/index";
+import { routeName as joinWaitingListRouteName } from "@views/join-waitlist-view.tsx";
+import { routeName as checkedInRouteName } from "@views/checked-in-view.tsx";
 
 export const routeName = "/waiting";
 

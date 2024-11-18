@@ -18,7 +18,18 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "noUncheckedSideEffectImports": true
+        "noUncheckedSideEffectImports": true,
+        /* Path aliases */
+        "baseUrl": "./src",
+        "paths": {
+            "@components/*": ["./components/*"],
+            "@constants/*": ["./constants/*"],
+            "@hooks/*": ["./hooks/*"],
+            "@models/*": ["./models/*"],
+            "@services/*": ["./services/*"],
+            "@utils/*": ["./utils/*"],
+            "@views/*": ["./views/*"]
+        }
     },
     "include": ["src", "tailwind.config.ts"]
 }
