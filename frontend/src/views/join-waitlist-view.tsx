@@ -17,6 +17,8 @@ import {
     PARTY_UUID_KEY,
 } from "../constants/storage-keys.ts";
 
+export const routeName = "/join-waitlist";
+
 interface IState {
     name: {
         value: string;

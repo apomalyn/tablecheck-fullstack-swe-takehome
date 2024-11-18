@@ -5,6 +5,7 @@ import {
     PARTY_EXPIRES_ON_KEY,
     PARTY_UUID_KEY,
 } from "./constants/storage-keys.ts";
+import { joinWaitlistRouteName, waitingRouteName } from "./views";
 
 export function loader({ request }: { request: Request }) {
     const url = new URL(request.url);
@@ -15,13 +16,13 @@ export function loader({ request }: { request: Request }) {
     const now = Date.now();
     if (
         uuid !== null &&
-        !url.pathname.startsWith("/waiting") &&
+        !url.pathname.startsWith(waitingRouteName) &&
         expiresOn > now
     ) {
-        return redirect("/waiting");
+        return redirect(waitingRouteName);
     } else if (url.pathname === "/") {
         localStorage.clear();
-        return redirect("/joinWaitlist");
+        return redirect(joinWaitlistRouteName);
     }
     return null;
 }

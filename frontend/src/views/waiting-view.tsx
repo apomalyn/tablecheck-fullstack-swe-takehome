@@ -15,6 +15,10 @@ import ApiService from "../services/api-service.ts";
 import CancelModal from "../components/cancel-modal.tsx";
 import { PARTY_UUID_KEY } from "../constants/storage-keys.ts";
 import IPositionInWaitlist from "../models/position-in-waitlist.ts";
+import { routeName as joinWaitingListRouteName } from "./join-waitlist-view.tsx";
+import { routeName as checkedInRouteName } from "./checked-in-view.tsx";
+
+export const routeName = "/waiting";
 
 interface IState {
     position?: IPositionInWaitlist;
