@@ -1,5 +1,23 @@
 # TableCheck SWE Fullstack Take-Home Assignment
 
+Author: Xavier Chretien (@apomalyn)
+
+## Architecture
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for more information.
+
+## Local install
+
+For detailed instructions for each part follow:
+- Front end [README](./frontend/README.md)
+- Back end [README](./backend/README.md)
+
+### TL;DR ?
+
+Follow the instructions in the [QUICK_INSTALL.md](./QUICK_INSTALL.md).
+
+## Assignment
+
 Remote Waitlist Manager is a full-stack application designed to handle the waitlist of your restaurant. It manages seating, queueing, and notifications for your diners. **Multiple parties** should be able to join your restaurant's waitlist **concurrently**. Instead of waiting in line to write your name on a piece of paper, you can now join the waitlist virtually and get notified when your table is ready. This will increase your restaurant's efficiency and provide a better experience for your customers.
 
 The user flow is as follows:
