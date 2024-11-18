@@ -1,24 +1,24 @@
 {
-  "translation": {
-    "join_waitlist_title": "Join the waitlist",
-    "join_waitlist_name": "Your name:",
-    "join_waitlist_name_placeholder": "John Doe",
-    "join_waitlist_party_size": "Size of your party?",
-    "join_waitlist_party_size_error": "Sorry, we only support party up to {{max}} people.",
-    "join_waitlist_submit": "Join the waitlist",
-    "waiting_title": "There are {{x}} party before you.",
-    "waiting_body": "We will inform you when your table is ready!",
-    "waiting_cancellation": "Cancel reservation",
-    "waiting_next": "You are the next one!",
-    "waiting_checkin_title": "It's your turn!",
-    "waiting_checkin_body": "We are ready to serve you, you simply need to check in.",
-    "waiting_checkin": "Check in",
-    "waiting_post_checkin": "Please direct yourself to the accueil",
-    "cancellation_body": "By cancelling, you will lose your position in the waitlist. Are you sure?",
-    "cancellation_confirm": "Yes",
-    "cancellation_cancel": "No, keep me in line.",
-    "checked_in_thank_you": "Thank you for your patience!",
-    "checked_in_instruction": "You can now go to the entrance to be seated. Enjoy your time with us!",
-    "checked_in_redirect": "You will be redirected in {{remainingSeconds}} seconds."
-  }
+    "translation": {
+        "join_waitlist_title": "Join the waitlist",
+        "join_waitlist_name": "Your name:",
+        "join_waitlist_name_placeholder": "John Doe",
+        "join_waitlist_party_size": "Size of your party?",
+        "join_waitlist_party_size_error": "Sorry, we only support party up to {{max}} people.",
+        "join_waitlist_submit": "Join the waitlist",
+        "waiting_title": "There are {{x}} party before you.",
+        "waiting_body": "We will inform you when your table is ready!",
+        "waiting_cancellation": "Cancel reservation",
+        "waiting_next": "You are the next one!",
+        "waiting_checkin_title": "It's your turn!",
+        "waiting_checkin_body": "We are ready to serve you, you simply need to check in.",
+        "waiting_checkin": "Check in",
+        "waiting_post_checkin": "Please direct yourself to the accueil",
+        "cancellation_body": "By cancelling, you will lose your position in the waitlist. Are you sure?",
+        "cancellation_confirm": "Yes",
+        "cancellation_cancel": "No, keep me in line.",
+        "checked_in_thank_you": "Thank you for your patience!",
+        "checked_in_instruction": "You can now go to the entrance to be seated. Enjoy your time with us!",
+        "checked_in_redirect": "You will be redirected in {{remainingSeconds}} seconds."
+    }
 }

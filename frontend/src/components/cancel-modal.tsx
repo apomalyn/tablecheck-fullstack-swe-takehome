@@ -7,7 +7,7 @@ import {
     ModalHeader,
 } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../hooks/use-theme.tsx";
+import { useTheme } from "../hooks";
 
 interface ICancelModalProps {
     onCancelConfirmed: () => void;

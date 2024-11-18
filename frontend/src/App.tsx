@@ -1,5 +1,5 @@
 import "./App.css";
-import { useTheme } from "./hooks/use-theme.tsx";
+import { useTheme } from "./hooks";
 import { Outlet, redirect } from "react-router-dom";
 import {
     PARTY_EXPIRES_ON_KEY,

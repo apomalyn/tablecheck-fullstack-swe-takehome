@@ -1,7 +1,6 @@
 import { Button, Navbar, NavbarContent } from "@nextui-org/react";
-import { useTheme } from "../hooks/use-theme.tsx";
+import { useTheme, useRestaurantConfig } from "../hooks";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { useRestaurantConfig } from "../hooks/use-restaurant-config.tsx";
 
 export default function AppBar() {
     const { isDarkMode, toggleDarkMode } = useTheme();

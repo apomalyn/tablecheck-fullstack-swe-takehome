@@ -1,4 +1,4 @@
-import AppBar from "../components/app-bar.tsx";
+import { AppBar } from "../components";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";

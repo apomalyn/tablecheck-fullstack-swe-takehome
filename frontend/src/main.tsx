@@ -5,8 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App, { loader } from "./App.tsx";
 import "./utils/i18n.ts";
-import ThemeContextProvider from "./hooks/use-theme.tsx";
-import RestaurantConfigContextProvider from "./hooks/use-restaurant-config.tsx";
+import { ThemeContextProvider, RestaurantConfigContextProvider } from "./hooks";
 import {
     JoinWaitlistView,
     joinWaitlistRouteName,

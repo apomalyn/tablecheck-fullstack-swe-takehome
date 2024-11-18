@@ -10,11 +10,10 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import AppBar from "../components/app-bar.tsx";
+import { AppBar, CancelModal } from "../components";
 import ApiService from "../services/api-service.ts";
-import CancelModal from "../components/cancel-modal.tsx";
 import { PARTY_UUID_KEY } from "../constants/storage-keys.ts";
-import IPositionInWaitlist from "../models/position-in-waitlist.ts";
+import { IPositionInWaitlist } from "../models";
 import { routeName as joinWaitingListRouteName } from "./join-waitlist-view.tsx";
 import { routeName as checkedInRouteName } from "./checked-in-view.tsx";
 

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
-
-import IRestaurantConfiguration from "../models/restaurant-configuration.ts";
-import IPositionInWaitlist from "../models/position-in-waitlist.ts";
+import {
+    IRestaurantConfiguration,
+    IPositionInWaitlist,
+    IParty,
+} from "../models";
 import axios, { AxiosInstance } from "axios";
-import IParty from "../models/party.ts";
 
 export default class ApiService {
     private static _instance: ApiService;

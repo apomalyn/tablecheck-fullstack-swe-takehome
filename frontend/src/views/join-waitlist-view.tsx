@@ -8,8 +8,8 @@ import {
     Input,
 } from "@nextui-org/react";
 import { useState, ChangeEvent } from "react";
-import { useRestaurantConfig } from "../hooks/use-restaurant-config.tsx";
-import AppBar from "../components/app-bar.tsx";
+import { useRestaurantConfig } from "../hooks";
+import { AppBar } from "../components";
 import ApiService from "../services/api-service.ts";
 import { useNavigate } from "react-router-dom";
 import {
