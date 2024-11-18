@@ -8,9 +8,9 @@ import {
     Input,
 } from "@nextui-org/react";
 import { useState, ChangeEvent } from "react";
-import { useRestaurantConfig } from "@hooks/index";
-import { AppBar } from "@components/index";
+import { AppBar } from "@components/index.tsx";
 import ApiService from "@services/api-service.ts";
+import { useRestaurantConfig } from "@hooks/index.tsx";
 import { useNavigate } from "react-router-dom";
 import {
     PARTY_EXPIRES_ON_KEY,

@@ -31,5 +31,5 @@
             "@views/*": ["./views/*"]
         }
     },
-    "include": ["src", "tailwind.config.ts"]
+    "include": ["src", "tailwind.config.ts"],
 }
