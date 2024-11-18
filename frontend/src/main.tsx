@@ -7,8 +7,14 @@ import App, { loader } from "./App.tsx";
 import "./utils/i18n.ts";
 import ThemeContextProvider from "./hooks/use-theme.tsx";
 import RestaurantConfigContextProvider from "./hooks/use-restaurant-config.tsx";
-import JoinWaitlistView from "./views/join-waitlist-view.tsx";
-import WaitingView from "./views/waiting-view.tsx";
+import {
+    JoinWaitlistView,
+    joinWaitlistRouteName,
+    WaitingView,
+    waitingRouteName,
+    CheckedInView,
+    checkedInRouteName,
+} from "./views";
 
 const router = createBrowserRouter([
     {
@@ -17,12 +23,16 @@ const router = createBrowserRouter([
         loader,
         children: [
             {
-                path: "joinWaitlist",
+                path: joinWaitlistRouteName.slice(1),
                 element: <JoinWaitlistView />,
             },
             {
-                path: "waiting",
+                path: waitingRouteName.slice(1),
                 element: <WaitingView />,
+            },
+            {
+                path: checkedInRouteName.slice(1),
+                element: <CheckedInView />,
             },
         ],
     },
