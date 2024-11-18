@@ -11,6 +11,7 @@ class WaitlistController < ApplicationController
 
   before_action :set_party_and_restaurant, only: [:check_in, :position_stream, :destroy]
 
+  # Checkin a party and adjust the number of available seats.
   def check_in
     # Verify the party position on the waitlist
     if @restaurant.waitlist.first._id != @party._id or @restaurant.current_capacity < @party.size
@@ -18,11 +19,15 @@ class WaitlistController < ApplicationController
       return
     end
 
+    # Seat the party, in other words takes available seats.
     @restaurant.current_capacity -= @party.size
     @restaurant.save
-    @party.destroy
 
-    # TODO Start party service Job.
+    # Queue the cleaning of the table.
+    RestaurantCleaningTableJob.set(wait: (3 * @party.size).seconds).perform_later(@restaurant._id, @party.size)
+
+    # The party is no longer needed.
+    @party.destroy
 
     render status: :ok
   end
