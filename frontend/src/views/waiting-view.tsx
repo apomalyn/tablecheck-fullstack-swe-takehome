@@ -44,12 +44,21 @@ export default function WaitingView() {
             .cancelPositionInWaitlist(partyUuid)
             .then(() => {
                 localStorage.clear();
-                navigate("/joinWaitlist");
+                navigate(joinWaitingListRouteName);
             });
     }
 
     function handleCheckin() {
-        console.log("Checking in!");
+        setState((current) => ({ ...current, isCheckingIn: true }));
+        void ApiService.instance
+            .checkIn(partyUuid)
+            .then(() => {
+                localStorage.clear();
+                navigate(checkedInRouteName);
+            })
+            .catch(() => {
+                setState((current) => ({ ...current, isCheckingIn: false }));
+            });
     }
 
     /**
