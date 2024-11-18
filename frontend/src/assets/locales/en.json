@@ -19,6 +19,9 @@
         "cancellation_cancel": "No, keep me in line.",
         "checked_in_thank_you": "Thank you for your patience!",
         "checked_in_instruction": "You can now go to the entrance to be seated. Enjoy your time with us!",
-        "checked_in_redirect": "You will be redirected in {{remainingSeconds}} seconds."
+        "checked_in_redirect": "You will be redirected in {{remainingSeconds}} seconds.",
+        "error_title": "Oups!",
+        "error": "Something went wrong, we are sorry for the inconvenience. ",
+        "error_redirect": "You will be redirected in {{remainingSeconds}} seconds."
     }
 }

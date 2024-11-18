@@ -13,12 +13,14 @@ import {
     waitingRouteName,
     CheckedInView,
     checkedInRouteName,
+    ErrorView,
 } from "./views";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
+        errorElement: <ErrorView />,
         loader,
         children: [
             {
