@@ -1,50 +1,71 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Virtual Waitlist - Front end
 
-Currently, two official plugins are available:
+Customer UI for the virtual waitlist. This should not be used by the restaurant owners.
 
--   [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
--   [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Made with ❤️ with React and Vite for TableCheck code assessment.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Requirements
 
--   Configure the top-level `parserOptions` property like this:
+- npm v10 or higher
+- the API deployed (see [backend README](../backend/README.md) for more information)
 
-```js
-export default tseslint.config({
-    languageOptions: {
-        // other options...
-        parserOptions: {
-            project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-            tsconfigRootDir: import.meta.dirname,
-        },
-    },
-});
+## Run Locally
+
+This assumes you have cloned the repository locally and all commands will be executed at the root of the project.
+
+Install dependencies
+
+```bash
+  npm install
 ```
 
--   Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
--   Optionally add `...tseslint.configs.stylisticTypeChecked`
--   Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Define the `.env` file
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
-
-export default tseslint.config({
-    // Set the react version
-    settings: { react: { version: "18.3" } },
-    plugins: {
-        // Add the react plugin
-        react,
-    },
-    rules: {
-        // other rules...
-        // Enable its recommended rules
-        ...react.configs.recommended.rules,
-        ...react.configs["jsx-runtime"].rules,
-    },
-});
+```bash
+  cp .env.template .env
 ```
+
+Update the content of hte `.env` file with your own values.
+
+- `VITE_API_BASE_URL`: base URL for the API, including `http://` but excluding the trailing `/`. For example: `http://localhost:3000`
+- `VITE_RESTAURANT_UUID`: UUID of the restaurant to use. If you want to use the default restaurant (for development purpose only), use the following `000000000000000000000001`.
+
+ℹ️ _If you are curious about the prefix_ `VITE_` _. This is a way to inject env variable on the client side using Vite._
+
+
+Start the application.
+
+```bash
+  npm run dev
+```
+
+Open the url shown on your terminal (by default: [http://localhost:5173/](http://localhost:5173/)). And enjoy!
+
+
+## Other commands
+
+To run the linter:
+
+```bash
+  npm run lint
+```
+
+To run prettier:
+
+```bash
+  npm run prettier[:write] # [:write] apply the changes
+```
+
+To build the application:
+
+```bash
+  npm run build
+```
+
+
+## Related
+
+[Backend API README](../backend/readme.md)
+
