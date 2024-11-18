@@ -29,7 +29,7 @@ class RestaurantsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def restaurant_params
     # params.expect(restaurant: [:name, :capacity])
-    restaurant_params = params.expect(restaurant: [:name, :capacity, :max_party_size])
+    restaurant_params = params.expect(restaurant: [ :name, :capacity, :max_party_size ])
     if restaurant_params[:name].blank? and restaurant_params[:capacity].blank?
       raise ActionController::ParameterMissing
     end
