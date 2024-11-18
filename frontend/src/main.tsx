@@ -1,43 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { NextUIProvider } from "@nextui-org/react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import App, { loader } from "./App.tsx";
-import "./utils/i18n.ts";
-import { ThemeContextProvider, RestaurantConfigContextProvider } from "./hooks";
+import "@utils/i18n.ts";
 import {
-    JoinWaitlistView,
-    joinWaitlistRouteName,
-    WaitingView,
-    waitingRouteName,
-    CheckedInView,
-    checkedInRouteName,
-    ErrorView,
-} from "./views";
-
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-        errorElement: <ErrorView />,
-        loader,
-        children: [
-            {
-                path: joinWaitlistRouteName.slice(1),
-                element: <JoinWaitlistView />,
-            },
-            {
-                path: waitingRouteName.slice(1),
-                element: <WaitingView />,
-            },
-            {
-                path: checkedInRouteName.slice(1),
-                element: <CheckedInView />,
-            },
-        ],
-    },
-]);
+    ThemeContextProvider,
+    RestaurantConfigContextProvider,
+} from "@hooks/index.tsx";
+import router from "./router.tsx";
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
