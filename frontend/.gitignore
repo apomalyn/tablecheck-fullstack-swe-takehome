@@ -179,4 +179,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Dotenv
+.env
+.env.local
+.env.development
+.env.production
+
 # End of https://www.toptal.com/developers/gitignore/api/react,intellij+all,macos,windows,linux

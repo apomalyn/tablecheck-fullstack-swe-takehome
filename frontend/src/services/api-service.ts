@@ -9,9 +9,8 @@ import axios, { AxiosInstance } from "axios";
 export default class ApiService {
     private static _instance: ApiService;
 
-    // TODO move those two into environment.
-    private static _baseApiUrl = "http://localhost:3000";
-    private static restaurantUuid = "673af0d57af80288c2b0784a";
+    private static _baseApiUrl = import.meta.env.VITE_API_BASE_URL;
+    private static restaurantUuid = import.meta.env.VITE_RESTAURANT_UUID;
 
     private axiosInstance: AxiosInstance;
 
