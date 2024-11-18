@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 
 import IRestaurantConfiguration from "../models/restaurant-configuration.ts";
-import { IPositionInWaitlistResponse } from "../models/position-in-waitlist-response.ts";
+import IPositionInWaitlist from "../models/position-in-waitlist.ts";
 import axios, { AxiosInstance } from "axios";
 import IParty from "../models/party.ts";
 
@@ -10,7 +10,7 @@ export default class ApiService {
 
     // TODO move those two into environment.
     private static _baseApiUrl = "http://localhost:3000";
-    private static restaurantUuid = "673a017eee706b33b11424ed";
+    private static restaurantUuid = "673af0d57af80288c2b0784a";
 
     private axiosInstance: AxiosInstance;
 
@@ -78,10 +78,47 @@ export default class ApiService {
         return response.data;
     }
 
-    async checkPositionInWaitlist(): Promise<IPositionInWaitlistResponse> {
-        return Promise.resolve({
-            position: 1,
-        });
+    /**
+     * Subscribe to an event source to receive the position in the waitlist
+     * regularly.
+     *
+     * @param partyUuid
+     * @param onData callback called when a new message is received.
+     * @return callback to close the transmission
+     */
+    checkPositionInWaitlist(
+        partyUuid: string,
+        onData: (response: IPositionInWaitlist) => void
+    ): () => void {
+        const eventSource = new EventSource(
+            `${ApiService._baseApiUrl}/waitlist/${partyUuid}`
+        );
+
+        // Transform the incoming data into a IPositionInWaitlistResponse before
+        // sending it to the view.
+        eventSource.onmessage = (event) => {
+            if (event.data.length === 0) {
+                return;
+            }
+            const rawJson = JSON.parse(event.data);
+            const response: IPositionInWaitlist = {
+                position: rawJson.position,
+                checkInAllowed: rawJson.check_in_allowed,
+            };
+            onData(response);
+
+            // If we are ready for checking in, no need to keep the connection alive
+            if (response.checkInAllowed) {
+                eventSource.close();
+            }
+        };
+
+        eventSource.onerror = (event) => {
+            console.error("Error during SSE. Closing the stream", event);
+            eventSource.close();
+        };
+
+        return () => eventSource.close();
     }
 
     async cancelPositionInWaitlist(partyUuid: string): Promise<void> {
