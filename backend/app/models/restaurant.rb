@@ -10,11 +10,11 @@ class Restaurant
 
   def as_json(options = {})
     {
-      :uuid => _id,
-      :name => name,
-      :capacity => capacity,
-      :current_capacity => current_capacity,
-      :max_party_size => max_party_size
+      uuid: _id,
+      name: name,
+      capacity: capacity,
+      current_capacity: current_capacity,
+      max_party_size: max_party_size
     }
   end
 end

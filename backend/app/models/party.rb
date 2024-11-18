@@ -10,10 +10,10 @@ class Party
 
   def as_json(options = {})
     {
-      :uuid => _id,
-      :name => name,
-      :size => size,
-      :expires_on => expires_on
+      uuid: _id,
+      name: name,
+      size: size,
+      expires_on: expires_on
     }
   end
 end
