@@ -5,9 +5,13 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/waitlist/join
+  url: {{baseUrl}}/waitlist/:restaurant_uuid/join
   body: json
   auth: none
+}
+
+params:path {
+  restaurant_uuid: 
 }
 
 body:json {

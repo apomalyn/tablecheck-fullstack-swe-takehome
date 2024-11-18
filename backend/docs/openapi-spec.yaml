@@ -10,7 +10,7 @@ paths:
   /restaurants/{uuid}:
     get:
       summary: Retrieve the restaurant configuration.
-      operationId: getRestaurantConfiguration
+      operationId: restaurants#show
       tags:
         - restaurants
       parameters:
@@ -18,18 +18,34 @@ paths:
       responses:
         200:
           description: Successful.
-          content: 
+          content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RestaurantConfiguration"
+                $ref: "#/components/schemas/Restaurant"
+  /restaurants:
+    post:
+      summary: Create a new restaurant.
+      description: FOR DEVELOPMENT PURPOSE ONLY.
+      operationId: restaurants#create
+      tags:
+        - restaurants
+      requestBody:
+        $ref: "#/components/requestBodies/CreateRestaurantRequest"
+      responses:
+        201:
+          $ref: "#/components/responses/RestaurantCreateSuccessfulResponse"
+        400:
+          $ref: "#/components/responses/InvalidRequestResponse"
   
-  /waitlist/join:
+  /waitlist/{restaurant_uuid}join:
     post:
       summary: Join the waitlist for the specified restaurant.
       description: Register a party in the waitlist.
-      operationId: joinWaitlist
+      operationId: waitlist#join
       tags:
         - waitlist
+      parameters:
+        - $ref: "#/components/parameters/RestaurantUuid"
       requestBody:
         $ref: "#/components/requestBodies/JoinWaitlistRequest"
       responses:
@@ -42,7 +58,7 @@ paths:
     get:
       summary: Retrieve the party's position in the waitlist.
       description: This endpoint will open a event source (see Server Sent Events for more information) with the API on which will an update on the party's position will be sent every 3 seconds.
-      operationId: getWaitlistPosition
+      operationId: waitlist#position_stream
       tags:
         - waitlist
       parameters:
@@ -54,7 +70,7 @@ paths:
           description: Party wasn't found. It may have already expired or checked in.
     delete:
       summary: Delete the party from the waitlist. This action cannot be reverted.
-      operationId: quitWaitlist
+      operationId: waitlist#destroy
       tags:
         - waitlist
       parameters:
@@ -65,8 +81,8 @@ paths:
   /waitlist/{uuid}/check-in:
     post:
       summary: Checking in the party.
-      description: The party 
-      operationId: checkInWaitlist
+      description: The party will be checked in and removed from the waitlist. They are supposed to be seated.
+      operationId: waitlist#check_in
       tags:
         - waitlist
       parameters:
@@ -74,16 +90,16 @@ paths:
       responses:
         200:
           description: Check-in successful
-        400:
-          $ref: "#/components/responses/InvalidRequestResponse"
+        403:
+          $ref: "#/components/responses/ForbiddenRequestResponse"
         404:
           description: Party wasn't found. It may have already expired or checked in.
 
 components:
   schemas:
-    RestaurantConfiguration:
+    RestaurantBase:
       type: object
-      description: The configuration of the restaurant, 
+      description: Base restaurant. Only used for creation.
       properties:
         name:
           type: string
@@ -103,6 +119,18 @@ components:
         - name
         - capacity
         - max_party_size
+    Restaurant:
+      allOf:
+        - $ref: "#/components/schemas/BaseParty"
+        - type: object
+          properties:
+            uuid:
+              type: string
+              format: uuid
+              example: "000000000000000000000001"
+          required:
+            - uuid
+
     BaseParty:
       type: object
       description: Base representation of a party.
@@ -113,7 +141,7 @@ components:
           example: John Doe
         size:
           type: integer
-          description: Size of the party, how many seats will be required. Cannot exceed the `RestaurantConfiguration.max_party_size`
+          description: Size of the party, how many seats will be required. Cannot exceed the `Restaurant.max_party_size`
           minimum: 1
           example: 5
       required:
@@ -127,6 +155,7 @@ components:
             uuid:
               type: string
               format: uuid
+              example: "000000000000000000000001"
             created_on:
               type: string
               format: datetime
@@ -144,8 +173,12 @@ components:
       properties:
         position:
           type: number
-          minimum: 1
-          description: Position of the party in the waitlist
+          minimum: 0
+          description: Position of the party in the waitlist. Zero indicates the party will be the next one.
+        check_in_allowed:
+          type: boolean
+          default: false
+          description: If yes or no, the party can check in. It will be true when position equals 0 and the restaurant has enough seats available.
     ApiResponse:
       type: object
       description: Default API response
@@ -155,7 +188,7 @@ components:
           example: "Operation successful"
           description: Informative message about the operation
       required:
-      - message
+        - message
   parameters:
     PartyUuid:
       in: path
@@ -165,6 +198,7 @@ components:
         type: string
         format: uuid
         description: Unique identifier of the party
+        example: "000000000000000000000001"
     RestaurantUuid:
       in: path
       name: uuid
@@ -173,6 +207,7 @@ components:
         type: string
         format: uuid
         description: Unique identifier of the restaurant
+        example: "000000000000000000000001"
   requestBodies:
     JoinWaitlistRequest:
       required: true
@@ -180,24 +215,26 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/BaseParty"
+    CreateRestaurantRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/RestaurantBase"
 
   responses:
+    RestaurantCreateSuccessfulResponse:
+      description: The restaurant was created
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Restaurant"
     JoinWaitlistSuccessfulResponse:
       description: The party was registered in the waitlist.
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              party:
-                $ref: "#/components/schemas/Party"
-              eventSource:
-                type: string
-                format: url
-                description: URL of the event source to be notified when the party's table will be ready.
-            required:
-              - party
-              - eventSource
+            $ref: "#/components/schemas/Party"
     GetWaitlistPositionResponse:
       description: Retrieve and subscribe to the party position in the waitlist
       content:
@@ -206,6 +243,12 @@ components:
             $ref: "#/components/schemas/PartyPosition"
     InvalidRequestResponse:
       description: Operation failed, request body or parameter are missing or invalid. See message for more information
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    ForbiddenRequestResponse:
+      description: Operation not allowed.
       content:
         application/json:
           schema:

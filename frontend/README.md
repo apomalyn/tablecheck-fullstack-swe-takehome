@@ -27,7 +27,7 @@ Define the `.env` file
   cp .env.template .env
 ```
 
-Update the content of hte `.env` file with your own values.
+Update the content of the `.env` file with your own values.
 
 - `VITE_API_BASE_URL`: base URL for the API, including `http://` but excluding the trailing `/`. For example: `http://localhost:3000`
 - `VITE_RESTAURANT_UUID`: UUID of the restaurant to use. If you want to use the default restaurant (for development purpose only), use the following `000000000000000000000001`.
