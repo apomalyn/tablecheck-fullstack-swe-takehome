@@ -12,7 +12,7 @@ import ApiService from "../services/api-service.ts";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import CancelModal from "../components/cancel-modal.tsx";
-import { PARTY_UUID_KEY } from "../constants/storage_keys.ts";
+import { PARTY_UUID_KEY } from "../constants/storage-keys.ts";
 
 export function loader() {
     return null;

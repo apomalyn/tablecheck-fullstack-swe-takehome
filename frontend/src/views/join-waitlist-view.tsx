@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import {
     PARTY_EXPIRES_ON_KEY,
     PARTY_UUID_KEY,
-} from "../constants/storage_keys.ts";
+} from "../constants/storage-keys.ts";
 
 interface IState {
     name: {

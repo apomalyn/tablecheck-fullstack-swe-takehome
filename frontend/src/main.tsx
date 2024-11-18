@@ -8,7 +8,7 @@ import "./utils/i18n.ts";
 import ThemeContextProvider from "./hooks/use-theme.tsx";
 import RestaurantConfigContextProvider from "./hooks/use-restaurant-config.tsx";
 import JoinWaitlistView from "./views/join-waitlist-view.tsx";
-import WaitingView, { loader as waitingLoader } from "./views/waitingView.tsx";
+import WaitingView, { loader as waitingLoader } from "./views/waiting-view.tsx";
 
 const router = createBrowserRouter([
     {
