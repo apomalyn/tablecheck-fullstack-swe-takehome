@@ -12,6 +12,4 @@ development:
         user: 'api-service'
         password: 'api-service'
 
-        # The user's database roles.
-        roles:
-          - 'readWrite'
+        connect: :direct

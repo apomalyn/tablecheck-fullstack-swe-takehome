@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   # Waitlist
   post "waitlist/:restaurant_uuid/join" => "waitlist#join"
-  get "waitlist/:uuid" => "waitlist#show"
+  get "waitlist/:uuid" => "waitlist#position_stream"
   post "waitlist/:uuid/check-in" => "waitlist#check_in"
   delete "waitlist/:uuid" => "waitlist#destroy"
 end
