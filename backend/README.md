@@ -1,11 +1,15 @@
-# Virtual Waitlist API
+# Virtual Waitlist - API
+
+API for the virtual waitlist.
+
+Made with ❤️ with Ruby On Rails and MongoDB for TableCheck code assessment.
 
 ## Requirements
 
 - Ruby v3.1 or higher
 - Docker v27 or higher (for the database)
 
-## Local MongoDB and initialization
+## Run Locally
 
 The API uses a MongoDB application to save the restaurant configuration and waitlist. To facilitate the initial setup
 a docker compose with seed data are available under `/mongo-db`. The docker compose contains a mongodb server and 
@@ -27,3 +31,47 @@ To initialize the database, follow those steps:
    3. You should see a `virtual_waitlist_db` database.
 
 You should now have a functional Mongo database available under `http://localhost:27017`.
+
+Install dependencies
+
+```bash
+  gem install bundler
+
+  bundler install
+```
+
+Start the application
+
+```bash
+  bin/rails server
+```
+
+Test the application
+
+```bash
+    curl http://localhost:3000/restaurants/000000000000000000000001     
+```
+
+You should receive the following
+
+```json
+{"uuid":"000000000000000000000001","name":"My Little Café","capacity":10,"current_capacity":10,"max_party_size":10}
+```
+
+If so, the API is now fully working!
+
+You can explore the available endpoints with the [OpenAPI contract](./docs/openapi-spec.yaml) situated in the docs. Or by loading the [Bruno](https://www.usebruno.com/) collection under `bruno`
+
+## Other commands
+
+To run the linter:
+
+```bash
+  bin/rails rubocop [--autocorrect]
+```
+
+
+## Related
+
+[Frontend README](../frontend/README.md)
+
