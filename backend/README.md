@@ -74,6 +74,12 @@ To run the linter:
   bin/rails rubocop [--autocorrect]
 ```
 
+To execute all the tests:
+
+```bash
+   bundle exec rspec
+```
+
 
 ## Related
 
