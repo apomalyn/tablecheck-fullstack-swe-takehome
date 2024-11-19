@@ -32,7 +32,7 @@ RSpec.describe RestaurantsController, type: :controller do
     context "Happy path" do
       it "should create and return the restaurant when only the required parameters are passed" do
         mock_restaurant_collection(restaurant)
-        post :create, params: {
+        post :create, as: :json, params: {
           restaurant: { name: restaurant.name, capacity: restaurant.capacity }
         }
 
@@ -45,7 +45,7 @@ RSpec.describe RestaurantsController, type: :controller do
         sample = build(:restaurant, max_party_size: 5)
         mock_restaurant_collection(sample)
 
-        post :create, params: {
+        post :create, as: :json, params: {
           restaurant: { name: sample.name, capacity: sample.capacity, max_party_size: sample.max_party_size }
         }
 
@@ -63,7 +63,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
     context "with invalid params" do
       it "should refuse a request with no parameters" do
-        post :create, params: { restaurant: {} }
+        post :create, as: :json, params: { restaurant: {} }
 
         expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
@@ -71,25 +71,25 @@ RSpec.describe RestaurantsController, type: :controller do
       end
 
       it "should refuse a request when missing capacity" do
-        post :create, params: { restaurant: { name: restaurant.name } }
+        post :create, as: :json, params: { restaurant: { name: restaurant.name } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(JSON.parse(response.body)).to include("errors" => include("capacity"))
       end
 
       it "should refuse a request when missing name" do
-        post :create, params: { restaurant: { capacity: restaurant.capacity } }
+        post :create, as: :json, params: { restaurant: { capacity: restaurant.capacity } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(JSON.parse(response.body)).to include("errors" => include("name"))
       end
 
       it "should refuse a request when a capacity isn't a integer" do
-        post :create, params: { restaurant: { name: restaurant.name, capacity: "error" } }
+        post :create, as: :json, params: { restaurant: { name: restaurant.name, capacity: "error" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.content_type).to eq('application/json; charset=utf-8')
         expect(JSON.parse(response.body)).to include("errors" => include("capacity"))
       end

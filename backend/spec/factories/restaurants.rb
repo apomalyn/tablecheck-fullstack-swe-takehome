@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :restaurant do
-    _id { "673b6c7259939e4377f7398c" }
+    _id { Faker::Internet.uuid.delete("-") }
     name { Faker::Restaurant.name }
     capacity { Faker::Number.between(from: 1, to: 100) }
     current_capacity { capacity }

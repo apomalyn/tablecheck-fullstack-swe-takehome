@@ -20,7 +20,7 @@ class RestaurantsController < ApplicationController
       render json: {
         message: "Creation failed.",
         errors: @restaurant.errors
-      }, status: :unprocessable_entity
+      }, status: :unprocessable_content
     end
   end
 
