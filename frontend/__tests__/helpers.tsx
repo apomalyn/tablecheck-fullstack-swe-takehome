@@ -12,5 +12,14 @@ const customRender = (
     options?: Omit<RenderOptions, "wrapper">,
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
+/**
+ * Mock the i18n module to return the key of the translation
+ */
+jest.mock('react-i18next', () => ({
+    useTranslation: jest.fn().mockImplementation(() => ({
+        t: (str: string) => str,
+    })),
+}));
+
 export * from "@testing-library/react";
 export { customRender as render };
