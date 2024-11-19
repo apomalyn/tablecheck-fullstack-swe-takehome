@@ -1,5 +1,7 @@
 {
     "translation": {
+        "toggle_dark_mode": "Toggle dark mode",
+        "toggle_light_mode": "Toggle light mode",
         "join_waitlist_title": "Join the waitlist",
         "join_waitlist_name": "Your name:",
         "join_waitlist_name_placeholder": "John Doe",
