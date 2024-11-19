@@ -18,17 +18,21 @@ class WaitlistController < ApplicationController
       return
     end
 
-    # Seat the party, in other words takes available seats.
+    # Sit the party, in other words takes available seats.
     @restaurant.current_capacity -= @party.size
-    @restaurant.save
 
-    # Queue the cleaning of the table.
-    RestaurantCleaningTableJob.set(wait: (3 * @party.size).seconds).perform_later(@restaurant._id, @party.size)
+    if @restaurant.save
 
-    # The party is no longer needed.
-    @party.destroy
+      # Queue the cleaning of the table.
+      RestaurantCleaningTableJob.set(wait: (3 * @party.size).seconds).perform_later(@restaurant._id, @party.size)
 
-    render status: :ok
+      # The party is no longer needed.
+      @party.destroy
+
+      render status: :ok
+    else
+      render status: :internal_server_error
+    end
   end
 
   # Open an SSE channel to update the client on the party position in the waitlist.
