@@ -30,8 +30,8 @@ RSpec.describe Party, type: :model do
 
   describe 'DB' do
     it { is_expected.to be_mongoid_document }
+    it { is_expected.to have_timestamps.for(:creating) }
     it { is_expected.to have_field(:name).of_type(String) }
-    it { is_expected.to have_field(:created_at).of_type(Time) } # equivalent of Timestamps::Created
     it { is_expected.to have_field(:size).of_type(Integer) }
     it { is_expected.to have_field(:expires_on).of_type(DateTime) }
     it { is_expected.to be_embedded_in(:restaurant).of_type(Restaurant) }
