@@ -1,20 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe WaitlistController, type: :controller do
-  let(:restaurant) { build(:restaurant, max_party_size: 4) }
+  let(:party) { build(:party, size: 2) }
+  let(:restaurant) { build(:restaurant, max_party_size: 4, waitlist: [ party ]) }
+  let(:double_restaurant) {
+    double(Restaurant,
+           _id: restaurant._id,
+           waitlist: restaurant.waitlist,
+           max_party_size: restaurant.max_party_size,
+           save: true,
+           as_json: restaurant.as_json)
+  }
+
+  before :each do
+    allow(Restaurant).to receive(:find).and_return(double_restaurant)
+    allow(Restaurant).to receive(:find_by).and_return(double_restaurant)
+  end
 
   describe "POST #join" do
-    let(:party) { build(:party, size: 2) }
-
     before :each do
       allow(Party).to receive(:new).and_return(party)
     end
 
     it "adds the party to the waitlist and returns OK" do
-      # Mock Part.new and Restaurant.find
-      allow(Party).to receive(:new).and_return(party)
-      mock_restaurant_collection(restaurant)
-
       post :join, as: :json, params: {
         restaurant_uuid: restaurant._id,
         waitlist: { name: party.name, party_size: 2 }
@@ -31,9 +39,6 @@ RSpec.describe WaitlistController, type: :controller do
     end
 
     it "returns a UNPROCESSABLE when the party size exceeding restaurant limit" do
-      # Mock Restaurant.find
-      mock_restaurant_collection(restaurant)
-
       post :join, as: :json, params: {
         restaurant_uuid: restaurant._id,
         waitlist: { name: party.name, party_size: 5 }
@@ -46,9 +51,6 @@ RSpec.describe WaitlistController, type: :controller do
     end
 
     it "returns a BAD_REQUEST when name is missing" do
-      # Mock Restaurant.find
-      mock_restaurant_collection(restaurant)
-
       post :join, as: :json, params: {
         restaurant_uuid: restaurant._id,
         waitlist: { party_size: 5 }
@@ -61,9 +63,6 @@ RSpec.describe WaitlistController, type: :controller do
     end
 
     it "returns a BAD_REQUEST when party_size is missing" do
-      # Mock Restaurant.find
-      mock_restaurant_collection(restaurant)
-
       post :join, as: :json, params: {
         restaurant_uuid: restaurant._id,
         waitlist: { name: party.name }
@@ -77,11 +76,11 @@ RSpec.describe WaitlistController, type: :controller do
 
     it "returns a NOT_FOUND when the restaurant doesn't exist" do
       # Mock Restaurant.find to raise a Mongoid::Errors::DocumentNotFound
-      allow(Restaurant).to receive(:find)
-                             .and_raise(Mongoid::Errors::DocumentNotFound.new(Restaurant, [ restaurant._id ]))
+      allow(Restaurant).to receive(:find).with("000")
+                                         .and_raise(Mongoid::Errors::DocumentNotFound.new(Restaurant, [ restaurant._id ]))
 
       post :join, as: :json, params: {
-        restaurant_uuid: restaurant._id,
+        restaurant_uuid: "000",
         waitlist: { name: party.name, party_size: party.size }
       }
 
@@ -90,15 +89,28 @@ RSpec.describe WaitlistController, type: :controller do
     end
   end
 
-  # Mock the Restaurant.find and find_by to return :restaurant
-  def mock_restaurant_collection(restaurant, save_mock_response = true)
-    allow(Restaurant).to receive(:find).and_return(
-      double(Restaurant,
-             _id: restaurant._id,
-             waitlist: restaurant.waitlist,
-             max_party_size: restaurant.max_party_size,
-             save: save_mock_response,
-             as_json: restaurant.as_json)
-    )
+  describe "DELETE #destroy" do
+    it "should delete the party when found" do
+      double_party = double(Party,
+             _id: party._id,
+             destroy: true)
+      allow(restaurant.waitlist).to receive(:find)
+                                      .with(party._id)
+                                      .and_return(double_party)
+
+      delete :destroy, params: { uuid: party._id }
+      expect(response).to have_http_status(:no_content)
+      expect(double_party).to have_received(:destroy)
+    end
+
+    it "should return NOT_FOUND when party doesn't exist" do
+      allow(restaurant.waitlist).to receive(:find)
+                                      .with(party._id)
+                                      .and_raise(Mongoid::Errors::DocumentNotFound.new(Party, [ party._id ]))
+
+      delete :destroy, params: { uuid: party._id }
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 end
