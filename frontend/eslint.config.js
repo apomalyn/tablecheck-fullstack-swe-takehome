@@ -6,6 +6,7 @@ import react from "eslint-plugin-react";
 import tseslint from "typescript-eslint";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import pluginJest from "eslint-plugin-jest";
+import testingLibrary from "eslint-plugin-testing-library";
 
 export default tseslint.config(
     { ignores: ["dist", "coverage"] },
@@ -39,9 +40,12 @@ export default tseslint.config(
         },
     },
     {
-        // update this to match your test files
         files: ["**/*.test.ts", "**/*.test.tsx"],
         plugins: { jest: pluginJest },
+        extends: [
+            pluginJest.configs.recommended,
+            testingLibrary.configs.recommended,
+        ],
         languageOptions: {
             globals: pluginJest.environments.globals.globals,
         },
