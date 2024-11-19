@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { routeName as joinWaitingListRouteName } from "@views/join-waitlist-view.tsx";
-import { AppBar } from "@components/index.tsx";
+import AppBar from "@components/app-bar.tsx";
 import { useTheme } from "@hooks/use-theme.tsx";
 
 export default function ErrorView() {
