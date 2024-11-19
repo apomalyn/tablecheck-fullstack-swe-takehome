@@ -136,7 +136,7 @@ export default class ApiService {
      * Check in the party.
      */
     async checkIn(partyUuid: string): Promise<void> {
-        await this.axiosInstance.post(`waitlist/${partyUuid}/check-in`, {
+        await this.axiosInstance.post(`/waitlist/${partyUuid}/check-in`, {
             validateStatus: function (status: number) {
                 // In this specific case, if the party doesn't exist on the API
                 // it's not important.
