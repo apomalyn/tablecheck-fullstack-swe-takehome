@@ -67,10 +67,10 @@ class WaitlistController < ApplicationController
   def join
     # Retrieve the original restaurant
     @restaurant = Restaurant.find(params.expect(:restaurant_uuid))
-    party_params = params.expect(waitlist: [ :name, :party_size ])
+    party_params = get_party_params
 
     if party_params[:party_size] > @restaurant.max_party_size
-      render json: { "message" => "Party size cannot exceed #{@restaurant.max_party_size}" }
+      return render status: :unprocessable_content, json: { "message" => "Party size cannot exceed #{@restaurant.max_party_size}" }
     end
 
     party = Party.new(party_params)
@@ -100,5 +100,14 @@ class WaitlistController < ApplicationController
   def set_party_and_restaurant
     @restaurant = set_restaurant_from_party
     @party = @restaurant.waitlist.find(params[:uuid])
+  end
+
+  # Confirm presence of :name, :capacity, and optional :max_party_size
+  def get_party_params
+    party_params = params.expect(waitlist: [ :name, :party_size ])
+    if party_params[:name].blank? or party_params[:party_size].blank?
+      raise ActionController::ParameterMissing.new("", keys = party_params[:name].blank? ? "name" : "party_size")
+    end
+    party_params
   end
 end

@@ -55,6 +55,10 @@ paths:
           $ref: "#/components/responses/JoinWaitlistSuccessfulResponse"
         400:
           $ref: "#/components/responses/InvalidRequestResponse"
+        404:
+          description: Restaurant wasn't found. Impossible to create Party
+        422:
+          $ref: "#/components/responses/UnprocessableRequestResponse"
   
   /waitlist/{uuid}:
     get:
