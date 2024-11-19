@@ -5,12 +5,13 @@ import {
     IParty,
 } from "@models/index.ts";
 import axios, { AxiosInstance } from "axios";
+import config from "@constants/config.ts";
 
 export default class ApiService {
     private static _instance: ApiService;
 
-    private static _baseApiUrl = import.meta.env.VITE_API_BASE_URL;
-    private static restaurantUuid = import.meta.env.VITE_RESTAURANT_UUID;
+    private static _baseApiUrl = config.API_BASE_URL;
+    private static restaurantUuid = config.RESTAURANT_UUID;
 
     private axiosInstance: AxiosInstance;
 
@@ -122,7 +123,7 @@ export default class ApiService {
     }
 
     async cancelPositionInWaitlist(partyUuid: string): Promise<void> {
-        return this.axiosInstance.delete(`/waitlist/${partyUuid}`, {
+        await this.axiosInstance.delete(`/waitlist/${partyUuid}`, {
             validateStatus: function (status: number) {
                 // In this specific case, if the party doesn't exist on the API
                 // it's not important.
@@ -135,7 +136,7 @@ export default class ApiService {
      * Check in the party.
      */
     async checkIn(partyUuid: string): Promise<void> {
-        return this.axiosInstance.post(`waitlist/${partyUuid}/check-in`, {
+        await this.axiosInstance.post(`waitlist/${partyUuid}/check-in`, {
             validateStatus: function (status: number) {
                 // In this specific case, if the party doesn't exist on the API
                 // it's not important.
