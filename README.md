@@ -10,9 +10,11 @@ This repository isn't supposed to be maintained alive and so the following aren'
 - Main branch protection rules
 - Workflows (GitHub Actions) to:
   - validate PRs
-  - build both part
+  - build both parts
 - GitHub releases
-- Semantic versions, both part are on 1.0.0.
+- Semantic versions, both parts are on 1.0.0.
+
+Also, I didn't forget to test the `waitlist_controller#position_stream` in the backend. Unfortunately, my knowledge of Rails and RSpec is lacking for that kind of test and I wanted to come back as soon as possible to you. I will keep working on it in the meantime.
 
 ## Architecture
 
