@@ -5,9 +5,10 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import react from "eslint-plugin-react";
 import tseslint from "typescript-eslint";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import pluginJest from "eslint-plugin-jest";
 
 export default tseslint.config(
-    { ignores: ["dist"] },
+    { ignores: ["dist", "coverage"] },
     {
         extends: [
             js.configs.recommended,
@@ -35,6 +36,21 @@ export default tseslint.config(
             "react-refresh/only-export-components": "off",
             ...react.configs.recommended.rules,
             ...react.configs["jsx-runtime"].rules,
+        },
+    },
+    {
+        // update this to match your test files
+        files: ["**/*.test.ts", "**/*.test.tsx"],
+        plugins: { jest: pluginJest },
+        languageOptions: {
+            globals: pluginJest.environments.globals.globals,
+        },
+        rules: {
+            "jest/no-disabled-tests": "warn",
+            "jest/no-focused-tests": "error",
+            "jest/no-identical-title": "error",
+            "jest/prefer-to-have-length": "warn",
+            "jest/valid-expect": "error",
         },
     }
 );
