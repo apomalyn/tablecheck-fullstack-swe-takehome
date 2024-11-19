@@ -2,6 +2,18 @@
 
 Author: Xavier Chretien (@apomalyn)
 
+## Notes for the reviewers
+
+First, thank you for taking the time to read and review this.
+
+This repository isn't supposed to be maintained alive and so the following aren't implemented:
+- Main branch protection rules
+- Workflows (GitHub Actions) to:
+  - validate PRs
+  - build both part
+- GitHub releases
+- Semantic versions, both part are on 1.0.0.
+
 ## Architecture
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for more information.
