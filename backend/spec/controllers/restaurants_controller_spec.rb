@@ -55,9 +55,8 @@ RSpec.describe RestaurantsController, type: :controller do
 
       def mock_restaurant_collection(restaurant)
         # Mock the database and save method
-        allow(Restaurant).to receive(:new).and_return(
-          double(Restaurant, save: true, as_json: restaurant.as_json)
-        )
+        allow(Restaurant).to receive(:new).and_return(restaurant)
+        allow(restaurant).to receive(:save).and_return(true)
       end
     end
 

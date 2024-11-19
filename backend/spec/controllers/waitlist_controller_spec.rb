@@ -2,19 +2,12 @@ require 'rails_helper'
 
 RSpec.describe WaitlistController, type: :controller do
   let(:party) { build(:party, size: 2) }
-  let(:restaurant) { build(:restaurant, max_party_size: 4, waitlist: [ party ]) }
-  let(:double_restaurant) {
-    double(Restaurant,
-           _id: restaurant._id,
-           waitlist: restaurant.waitlist,
-           max_party_size: restaurant.max_party_size,
-           save: true,
-           as_json: restaurant.as_json)
-  }
+  let(:restaurant) { build(:restaurant, max_party_size: 4, current_capacity: 2, waitlist: [ party ]) }
 
   before :each do
-    allow(Restaurant).to receive(:find).and_return(double_restaurant)
-    allow(Restaurant).to receive(:find_by).and_return(double_restaurant)
+    allow(Restaurant).to receive(:find).and_return(restaurant)
+    allow(Restaurant).to receive(:find_by).and_return(restaurant)
+    allow(restaurant).to receive(:save).and_return(true)
   end
 
   describe "POST #join" do
@@ -91,16 +84,14 @@ RSpec.describe WaitlistController, type: :controller do
 
   describe "DELETE #destroy" do
     it "should delete the party when found" do
-      double_party = double(Party,
-             _id: party._id,
-             destroy: true)
       allow(restaurant.waitlist).to receive(:find)
                                       .with(party._id)
-                                      .and_return(double_party)
+                                      .and_return(party)
+      allow(party).to receive(:destroy).and_return(true)
 
       delete :destroy, params: { uuid: party._id }
       expect(response).to have_http_status(:no_content)
-      expect(double_party).to have_received(:destroy)
+      expect(party).to have_received(:destroy)
     end
 
     it "should return NOT_FOUND when party doesn't exist" do
