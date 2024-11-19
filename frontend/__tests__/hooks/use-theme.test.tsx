@@ -23,15 +23,15 @@ describe("ThemeContextProvider", () => {
         const toggleButton = screen.getByText("Toggle");
 
         // Check that the default mode
-        expect(modeElement.textContent).toBe("dark");
+        expect(modeElement).toHaveTextContent("dark");
 
         // Toggle the mode
         fireEvent.click(toggleButton);
-        expect(modeElement.textContent).toBe("light");
+        expect(modeElement).toHaveTextContent("light");
 
         // Toggle back
         fireEvent.click(toggleButton);
-        expect(modeElement.textContent).toBe("dark");
+        expect(modeElement).toHaveTextContent("dark");
     });
 
     test("throws error when useTheme is used outside of ThemeContextProvider", () => {
