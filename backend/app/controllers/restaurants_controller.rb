@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: %i[ show ]
+  before_action :set_restaurant, only: [ :show ]
 
   # GET /restaurants/1
   def show
@@ -15,7 +15,12 @@ class RestaurantsController < ApplicationController
     if @restaurant.save
       render json: @restaurant, status: :created
     else
-      render json: @restaurant.errors, status: :unprocessable_entity
+      # Remove :current_capacity as it isn't an accepted parameter
+      @restaurant.errors.delete(:current_capacity)
+      render json: {
+        message: "Creation failed.",
+        errors: @restaurant.errors
+      }, status: :unprocessable_entity
     end
   end
 
@@ -28,8 +33,7 @@ class RestaurantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def restaurant_params
-    # params.expect(restaurant: [:name, :capacity])
-    restaurant_params = params.expect(restaurant: [ :name, :capacity, :max_party_size ])
+    restaurant_params = params.expect(restaurant: [ :name, :capacity, :max_party_size ]).except([ :current_capacity ])
     if restaurant_params[:name].blank? and restaurant_params[:capacity].blank?
       raise ActionController::ParameterMissing
     end

@@ -36,6 +36,8 @@ paths:
           $ref: "#/components/responses/RestaurantCreateSuccessfulResponse"
         400:
           $ref: "#/components/responses/InvalidRequestResponse"
+        422:
+          $ref: "#/components/responses/UnprocessableRequestResponse"
   
   /waitlist/{restaurant_uuid}join:
     post:
@@ -253,4 +255,18 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ApiResponse"
+    UnprocessableRequestResponse:
+      description: Some parameters are incorrect.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/ApiResponse"
+              - type: object
+                properties:
+                  errors:
+                    type: object
+                    additionalProperties: { }
+                    example:
+                      capacity: [ "cannot be blank" ]
   
