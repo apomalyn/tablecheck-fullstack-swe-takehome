@@ -2,16 +2,13 @@
 export default {
     testEnvironment: "node",
     transform: {
-        "^.+.tsx?$": ["ts-jest", {}],
+        "^.+.tsx?$": ["ts-jest", {
+            tsconfig: "tsconfig.app.json",
+        }],
     },
     testMatch: ["**/*.test.ts", "**/*.test.tsx"],
     testPathIgnorePatterns: ["<rootDir>/node_modules/"],
     moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-    globals: {
-        "ts-jest": {
-            tsconfig: "tsconfig.app.json",
-        },
-    },
     collectCoverage: true,
     moduleNameMapper: {
         "^@components/(.*)$": "<rootDir>/src/components/$1",
