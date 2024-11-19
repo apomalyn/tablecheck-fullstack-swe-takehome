@@ -31,11 +31,11 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params.expect(:uuid))
   end
 
-  # Only allow a list of trusted parameters through.
+  # Confirm presence of :name, :capacity, and optional :max_party_size
   def restaurant_params
     restaurant_params = params.expect(restaurant: [ :name, :capacity, :max_party_size ]).except([ :current_capacity ])
-    if restaurant_params[:name].blank? and restaurant_params[:capacity].blank?
-      raise ActionController::ParameterMissing
+    if restaurant_params[:name].blank? or restaurant_params[:capacity].blank?
+      raise ActionController::ParameterMissing.new("", keys=restaurant_params[:name].blank? ? "name" : "capacity")
     end
     restaurant_params
   end

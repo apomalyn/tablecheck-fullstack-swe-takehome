@@ -67,23 +67,23 @@ RSpec.describe RestaurantsController, type: :controller do
 
         expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(JSON.parse(response.body)).to include("message" => "Request is missing one or multiple parameters.")
+        expect(JSON.parse(response.body)).to include("message")
       end
 
       it "should refuse a request when missing capacity" do
         post :create, as: :json, params: { restaurant: { name: restaurant.name } }
 
-        expect(response).to have_http_status(:unprocessable_content)
+        expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(JSON.parse(response.body)).to include("errors" => include("capacity"))
+        expect(JSON.parse(response.body)).to include("message" => end_with("capacity"))
       end
 
       it "should refuse a request when missing name" do
         post :create, as: :json, params: { restaurant: { capacity: restaurant.capacity } }
 
-        expect(response).to have_http_status(:unprocessable_content)
+        expect(response).to have_http_status(:bad_request)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(JSON.parse(response.body)).to include("errors" => include("name"))
+        expect(JSON.parse(response.body)).to include("message" => end_with("name"))
       end
 
       it "should refuse a request when a capacity isn't a integer" do
