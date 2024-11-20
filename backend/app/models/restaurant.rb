@@ -10,9 +10,10 @@ class Restaurant
 
   validates :name, presence: true, length: { minimum: 1 }
   validates :capacity, presence: true, comparison: { greater_than_or_equal_to: 1 }
+  validates :max_party_size, presence: true, comparison: { greater_than_or_equal_to: 1 }, on: :create
 
   validates_each :current_capacity, :max_party_size do |record, attr, value|
-    if value.nil? || value <= 0
+    if value.nil? || value < 0
       record.errors.add attr, "must be greater than 0 or nil"
     elsif value > record.capacity
       record.errors.add attr, "must be less than or equal to the restaurant's capacity or nil"
