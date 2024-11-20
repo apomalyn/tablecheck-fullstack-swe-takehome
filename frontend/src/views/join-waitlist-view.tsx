@@ -6,9 +6,10 @@ import {
     CardFooter,
     CardHeader,
     Input,
+    useDisclosure,
 } from "@nextui-org/react";
 import { useState, ChangeEvent } from "react";
-import { AppBar } from "@components/index.tsx";
+import { AppBar, ErrorModal } from "@components/index.tsx";
 import ApiService from "@services/api-service.ts";
 import { useRestaurantConfig } from "@hooks/index.tsx";
 import { useNavigate } from "react-router-dom";
@@ -35,6 +36,7 @@ export default function JoinWaitlistView() {
     const { t } = useTranslation();
     const { config } = useRestaurantConfig();
     const navigate = useNavigate();
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [state, setState] = useState<IState>({
         name: {
             value: "",
@@ -86,8 +88,8 @@ export default function JoinWaitlistView() {
                 navigate("/waiting");
             })
             .catch((err) => {
-                // TODO handle error
                 console.log(err);
+                onOpen();
                 setState((current) => ({ ...current, isSubmitting: false }));
             });
     }
@@ -125,7 +127,7 @@ export default function JoinWaitlistView() {
                                 label={t("join_waitlist_party_size")}
                                 labelPlacement="outside"
                                 min={1}
-                                max={10}
+                                max={config?.maxPartySize ?? 10}
                                 value={state.partySize.value.toString()}
                                 onChange={onPartySizeChange}
                                 isInvalid={state.partySize.isInvalid}
@@ -157,6 +159,7 @@ export default function JoinWaitlistView() {
                     </form>
                 </Card>
             </div>
+            <ErrorModal isOpen={isOpen} onOpenChange={onOpenChange} />
         </>
     );
 }
