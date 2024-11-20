@@ -14,7 +14,6 @@ RSpec.describe RestaurantsController, type: :controller do
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to start_with("application/json")
       expect_restaurant_json_match(response.body, restaurant)
-
     end
 
     it "should return a 404 (Not Found) with nothing when the restaurant doesn't exist" do
@@ -38,7 +37,6 @@ RSpec.describe RestaurantsController, type: :controller do
 
         expect(response).to have_http_status(:created)
         expect_restaurant_json_match(response.body, restaurant)
-
       end
 
       it "should accept max_party_size" do
