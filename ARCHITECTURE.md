@@ -71,20 +71,26 @@ Keep in mind that, this is not an optimal solution, but a practical one which do
 
 
 
-## Enhancements
+## Enhancements to come
+
+Notes: The following are ideas that I had during the development. In the following days, I will try to implement some of them in another branch, feel free to check it!
 
 **API Security**
 
-The communication between the UI and the API aren't secured right now. Implementing a API key would be necessary for any production deployment.
+The communication between the UI and the API isn't secured right now. Implementing an API key would be necessary for any production deployment.
+
+**Check-in expiration**
+
+By following the requirements, the party that is allowed to check in is blocking the queue. In other words, if the said party never checks in, no one will check in. To avoid the deadlock, an expiration of the check-in would be a good idea, for example, after 5 minutes without checking in, the party is excluded from the queue.
 
 **Notification**
 
-Currently, the customer needs to stay on the application to check their position and see if the check in is available. Which is higly inconvenient! Having a push notification service like Firebase would drastically improve the customer experience.
+Currently, the customer needs to stay on the application to check their position and see if the check-in is available. Which is highly inconvenient! Having a push notification service like Firebase would drastically improve the customer experience.
 
 **Restaurant's UI**
 
-We have a restaurant system but no restaurant interface! In the scope of this project it doesn't make sense but in a normal restaurant, it's an employee that will indicate a table is ready, mix the walk-in customers and the reservations, etc. This interface would allow the restaurant to adjust its settings (capacity, party size, etc.) but also to update the system with the current capacity.
+We have a restaurant system but no restaurant interface! In the scope of this project, it doesn't make sense but in a normal restaurant, it's an employee that will indicate a table is ready, mix the walk-in customers and the reservations, etc. This interface would allow the restaurant to adjust its settings (capacity, party size, etc.) but also to update the system with the current capacity.
 
 **Widget**
 
-The application is a separated UI which could be unified with the restaurant's website. Offering a widget option could facilitate the restaurants adoption.
+The application is a separated UI which could be unified with the restaurant's website. Offering a widget option could facilitate the restaurants' adoption.
