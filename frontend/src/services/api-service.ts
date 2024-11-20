@@ -52,6 +52,10 @@ export default class ApiService {
 
     /**
      * Add the party to the waitlist.
+     *
+     * @param name of the person joining the waitlist
+     * @param partySize number of people in the group
+     * @return IParty created party.
      */
     async joinWaitlist(name: string, partySize: number): Promise<IParty> {
         const response = await this.axiosInstance.post<IParty>(

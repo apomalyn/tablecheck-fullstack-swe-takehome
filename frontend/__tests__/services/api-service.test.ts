@@ -75,6 +75,84 @@ describe("ApiService", () => {
         });
     });
 
+    describe("checkPositionInWaitlist", () => {
+        const eventSourceInstanceMock = {
+            onmessage: null,
+            onerror: null,
+            close: jest.fn(),
+        };
+        const eventSourceMock = jest
+            .fn()
+            .mockReturnValue(eventSourceInstanceMock);
+
+        (global as any).EventSource = eventSourceMock;
+
+        it("should handle incoming message and transform the data", () => {
+            const onDataMock = jest.fn();
+            apiService.checkPositionInWaitlist("party-uuid", onDataMock);
+
+            expect(eventSourceMock).toHaveBeenCalled();
+
+            // Extract the onMessage callback
+            expect(eventSourceInstanceMock.onmessage).not.toBeNull();
+            const onMessageCallback =
+                eventSourceInstanceMock.onmessage as unknown as (
+                    event: MessageEvent
+                ) => void;
+
+            // Send message
+            const message = { position: 1, check_in_allowed: false };
+            onMessageCallback({
+                data: JSON.stringify(message),
+            } as MessageEvent);
+            expect(onDataMock).toHaveBeenCalledWith({
+                position: message.position,
+                checkInAllowed: message.check_in_allowed,
+            });
+            expect(eventSourceInstanceMock.close).not.toHaveBeenCalled();
+
+            // Send end message
+            message.check_in_allowed = true;
+            onMessageCallback({
+                data: JSON.stringify(message),
+            } as MessageEvent);
+            expect(onDataMock).toHaveBeenCalledWith({
+                position: message.position,
+                checkInAllowed: message.check_in_allowed,
+            });
+            expect(eventSourceInstanceMock.close).toHaveBeenCalled();
+        });
+
+        it("should close the eventSource on error", () => {
+            apiService.checkPositionInWaitlist("party-uuid", jest.fn());
+
+            expect(eventSourceMock).toHaveBeenCalled();
+
+            // Extract the onError callback
+            expect(eventSourceInstanceMock.onerror).not.toBeNull();
+            const onErrorCallback =
+                eventSourceInstanceMock.onerror as unknown as (
+                    event: Event
+                ) => void;
+
+            // Send error
+            onErrorCallback({} as Event);
+            expect(eventSourceInstanceMock.close).toHaveBeenCalled();
+        });
+
+        it("should close the eventSource when the callback returned is called", () => {
+            const callback = apiService.checkPositionInWaitlist("party-uuid", jest.fn());
+
+            expect(eventSourceMock).toHaveBeenCalled();
+
+            expect(eventSourceInstanceMock.onerror).not.toBeNull();
+            expect(eventSourceInstanceMock.onmessage).not.toBeNull();
+
+            callback();
+            expect(eventSourceInstanceMock.close).toHaveBeenCalled();
+        });
+    });
+
     describe("cancelPositionInWaitlist", () => {
         it("should send a DELETE /waitlist/:party_uuid", async () => {
             axiosInstanceMock.delete.mockResolvedValue({
