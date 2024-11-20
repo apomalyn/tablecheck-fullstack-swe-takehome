@@ -38,7 +38,7 @@ export default function ErrorModal({
                             <p>{t("error_try_again")}</p>
                         </ModalBody>
                         <ModalFooter>
-                            <Button variant="light" onPress={onClose}>
+                            <Button color="primary" onPress={onClose}>
                                 {t("ok")}
                             </Button>
                         </ModalFooter>
