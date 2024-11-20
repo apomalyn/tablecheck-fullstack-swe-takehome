@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from "../helpers";
 import CancelModal from "@components/cancel-modal.tsx";
 import { useTheme } from "@hooks/use-theme.tsx";
 
-
 const useThemeMock = {
     isDarkMode: true,
     toggleDarkMode: jest
@@ -23,7 +22,7 @@ describe("CancelModal", () => {
 
     afterEach(() => {
         jest.clearAllMocks();
-    })
+    });
 
     it("should render the modal when isOpen is true", () => {
         render(
@@ -31,7 +30,7 @@ describe("CancelModal", () => {
                 isOpen={true}
                 onCancelConfirmed={onCancelConfirmed}
                 onOpenChange={onOpenChange}
-            />,
+            />
         );
 
         expect(screen.getByText("cancellation_cancel")).toBeInTheDocument();
@@ -45,7 +44,7 @@ describe("CancelModal", () => {
                 isOpen={false}
                 onCancelConfirmed={onCancelConfirmed}
                 onOpenChange={onOpenChange}
-            />,
+            />
         );
 
         expect(screen.queryByText("cancellation_body")).not.toBeInTheDocument();
@@ -57,7 +56,7 @@ describe("CancelModal", () => {
                 isOpen={true}
                 onCancelConfirmed={onCancelConfirmed}
                 onOpenChange={onOpenChange}
-            />,
+            />
         );
 
         fireEvent.click(screen.getByText("cancellation_cancel"));
@@ -71,7 +70,7 @@ describe("CancelModal", () => {
                 isOpen={true}
                 onCancelConfirmed={onCancelConfirmed}
                 onOpenChange={onOpenChange}
-            />,
+            />
         );
 
         // Click on the close icon.
@@ -86,7 +85,7 @@ describe("CancelModal", () => {
                 isOpen={true}
                 onCancelConfirmed={onCancelConfirmed}
                 onOpenChange={onOpenChange}
-            />,
+            />
         );
 
         fireEvent.click(screen.getByText("cancellation_confirm"));

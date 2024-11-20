@@ -29,6 +29,11 @@ export default class ApiService {
         return ApiService._instance;
     }
 
+    /**
+     * Fetches the restaurant configuration details using its UUID.
+     *
+     * @return Promise<IRestaurantConfiguration>
+     */
     async getRestaurantConfiguration(): Promise<IRestaurantConfiguration> {
         const response = await this.axiosInstance.get<IRestaurantConfiguration>(
             `/restaurants/${ApiService.restaurantUuid}`,
@@ -87,9 +92,9 @@ export default class ApiService {
      * Subscribe to an event source to receive the position in the waitlist
      * regularly.
      *
-     * @param partyUuid
-     * @param onData callback called when a new message is received.
-     * @return callback to close the transmission
+     * @param partyUuid  - The UUID of the party to be removed from the waitlist
+     * @param onData  - Callback to transmit the messages received
+     * @return {() => void} - Callback to close the transmission
      */
     checkPositionInWaitlist(
         partyUuid: string,
@@ -126,6 +131,12 @@ export default class ApiService {
         return () => eventSource.close();
     }
 
+    /**
+     * Cancels a party's position in the waitlist.
+     *
+     * @param partyUuid - The UUID of the party to be removed from the waitlist.
+     * @return Promise<void> - A promise that resolves when the operation is complete.
+     */
     async cancelPositionInWaitlist(partyUuid: string): Promise<void> {
         await this.axiosInstance.delete(`/waitlist/${partyUuid}`, {
             validateStatus: function (status: number) {
@@ -138,6 +149,8 @@ export default class ApiService {
 
     /**
      * Check in the party.
+     *
+     * @param partyUuid - The UUID of the party to check in
      */
     async checkIn(partyUuid: string): Promise<void> {
         await this.axiosInstance.post(`/waitlist/${partyUuid}/check-in`, {

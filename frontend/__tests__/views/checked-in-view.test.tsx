@@ -33,7 +33,7 @@ describe("CheckedInView", () => {
 
         act(() => {
             jest.advanceTimersByTime(21000); // 20 seconds
-        })
+        });
 
         await waitFor(() => {
             expect(navigate).toHaveBeenCalledWith(routeName);

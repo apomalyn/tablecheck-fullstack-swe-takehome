@@ -14,10 +14,7 @@ interface IErrorModalProps {
     onOpenChange: (isOpen: boolean) => void;
 }
 
-export default function ErrorModal({
-                                        isOpen,
-                                        onOpenChange,
-                                    }: IErrorModalProps) {
+export default function ErrorModal({ isOpen, onOpenChange }: IErrorModalProps) {
     const { t } = useTranslation();
     const { isDarkMode } = useTheme();
 

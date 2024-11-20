@@ -123,6 +123,27 @@ describe("ApiService", () => {
             expect(eventSourceInstanceMock.close).toHaveBeenCalled();
         });
 
+        it("should no call onData when the message is empty", () => {
+            const onDataMock = jest.fn();
+            apiService.checkPositionInWaitlist("party-uuid", onDataMock);
+
+            expect(eventSourceMock).toHaveBeenCalled();
+
+            // Extract the onMessage callback
+            expect(eventSourceInstanceMock.onmessage).not.toBeNull();
+            const onMessageCallback =
+                eventSourceInstanceMock.onmessage as unknown as (
+                    event: MessageEvent
+                ) => void;
+
+            // Send message
+            onMessageCallback({
+                data: "",
+            } as MessageEvent);
+            expect(onDataMock).not.toHaveBeenCalled();
+            expect(eventSourceInstanceMock.close).not.toHaveBeenCalled();
+        });
+
         it("should close the eventSource on error", () => {
             apiService.checkPositionInWaitlist("party-uuid", jest.fn());
 
@@ -141,7 +162,10 @@ describe("ApiService", () => {
         });
 
         it("should close the eventSource when the callback returned is called", () => {
-            const callback = apiService.checkPositionInWaitlist("party-uuid", jest.fn());
+            const callback = apiService.checkPositionInWaitlist(
+                "party-uuid",
+                jest.fn()
+            );
 
             expect(eventSourceMock).toHaveBeenCalled();
 

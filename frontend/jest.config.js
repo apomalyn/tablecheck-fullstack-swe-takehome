@@ -2,9 +2,12 @@
 export default {
     testEnvironment: "jsdom",
     transform: {
-        "^.+.tsx?$": ["ts-jest", {
-            tsconfig: "tsconfig.app.json",
-        }],
+        "^.+.tsx?$": [
+            "ts-jest",
+            {
+                tsconfig: "tsconfig.app.json",
+            },
+        ],
     },
     testMatch: ["**/*.test.ts", "**/*.test.tsx"],
     testPathIgnorePatterns: ["<rootDir>/node_modules/"],
@@ -17,6 +20,6 @@ export default {
         "^@services/(.*)$": "<rootDir>/src/services/$1",
         "^@models/(.*)$": "<rootDir>/src/models/$1",
         "^@utils/(.*)$": "<rootDir>/src/utils/$1",
-        "^@views/(.*)$": "<rootDir>/src/views/$1"
-    }
+        "^@views/(.*)$": "<rootDir>/src/views/$1",
+    },
 };

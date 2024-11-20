@@ -19,7 +19,7 @@ jest.mock("@components/app-bar", () => ({
 // Mock the ErrorModal to reduce render time
 jest.mock("@components/error-modal", () => ({
     __esModule: true,
-    default: ({ isOpen }: { isOpen: boolean,  }) => (
+    default: ({ isOpen }: { isOpen: boolean }) => (
         <div data-open={isOpen}>ErrorModal</div>
     ),
 }));
@@ -249,7 +249,10 @@ describe("JoinWaitlistView", () => {
                 )
             );
             await waitFor(() => {
-                expect(screen.getByText("ErrorModal")).toHaveAttribute("data-open", "true");
+                expect(screen.getByText("ErrorModal")).toHaveAttribute(
+                    "data-open",
+                    "true"
+                );
             });
             expect(localStorageMock.setItem).not.toHaveBeenCalled();
             expect(navigateMock).not.toHaveBeenCalled();
