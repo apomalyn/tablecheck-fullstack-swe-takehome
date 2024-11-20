@@ -61,6 +61,7 @@ Start frontend
 
 ```bash
     cd frontend
+     cp .env.template .env
     npm run dev
 ```
 
