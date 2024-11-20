@@ -24,6 +24,7 @@
         "checked_in_redirect": "You will be redirected in {{remainingSeconds}} seconds.",
         "error_title": "Oups!",
         "error": "Something went wrong, we are sorry for the inconvenience. ",
+        "error_try_again": "Something went wrong, we are sorry for the inconvenience. Please try again in a few moment",
         "error_redirect": "You will be redirected in {{remainingSeconds}} seconds."
     }
 }
