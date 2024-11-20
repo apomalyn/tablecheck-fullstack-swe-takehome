@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AppBar, CancelModal } from "@components/index.tsx";
+import { AppBar, CancelModal, ErrorModal } from "@components/index.tsx";
 import ApiService from "@services/api-service.ts";
 import { PARTY_UUID_KEY } from "@constants/storage-keys.ts";
 import { IPositionInWaitlist } from "@models/index.ts";
@@ -30,6 +30,11 @@ export default function WaitingView() {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const {
+        isOpen: isErrorOpen,
+        onOpen: onErrorOpen,
+        onOpenChange: onErrorOpenChange,
+    } = useDisclosure();
     const [state, setState] = useState<IState>({
         isCheckingIn: false,
         title: "",
@@ -55,7 +60,9 @@ export default function WaitingView() {
                 localStorage.clear();
                 navigate(checkedInRouteName);
             })
-            .catch(() => {
+            .catch((err) => {
+                console.log(err);
+                onErrorOpen();
                 setState((current) => ({ ...current, isCheckingIn: false }));
             });
     }
@@ -83,7 +90,7 @@ export default function WaitingView() {
     // Subscribe to the position update.
     useEffect(() => {
         return ApiService.instance.checkPositionInWaitlist(
-            localStorage.getItem(PARTY_UUID_KEY)!,
+            partyUuid,
             onPositionReceived
         );
     }, []);
@@ -134,6 +141,7 @@ export default function WaitingView() {
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
             />
+            <ErrorModal isOpen={isErrorOpen} onOpenChange={onErrorOpenChange} />
         </>
     );
 }
